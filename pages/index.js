@@ -8,12 +8,15 @@ import RefreshButton from "../components/RefreshButton";
 import { initializeDarkMode, toggleDarkMode } from "../lib/utils";
 import { fetchStatusData } from "../lib/utils/statusData";
 import {
-  CheckCircleIcon,
-  ClockIcon,
-  ServerIcon,
-  ExclamationIcon,
-  XCircleIcon,
-} from "@heroicons/react/outline";
+  CheckCircle,
+  Clock,
+  Server,
+  AlertTriangle,
+  XCircle,
+  BarChart2,
+  RefreshCw,
+  Activity,
+} from "lucide-react";
 import { useNotification } from "../components/Notification";
 
 export default function Home() {
@@ -88,20 +91,20 @@ export default function Home() {
           oldSite.status !== "operational"
         ) {
           notification.success(`${newSite.name} is now operational`, {
-            icon: <CheckCircleIcon className="h-5 w-5" />,
+            icon: <CheckCircle className="h-5 w-5" strokeWidth={2} />,
             duration: 8000,
           });
         } else if (newSite.status === "degraded") {
           notification.warning(
             `${newSite.name} is experiencing degraded performance`,
             {
-              icon: <ExclamationIcon className="h-5 w-5" />,
+              icon: <AlertTriangle className="h-5 w-5" strokeWidth={2} />,
               duration: 10000,
             },
           );
         } else if (newSite.status === "outage") {
           notification.error(`${newSite.name} is currently down`, {
-            icon: <XCircleIcon className="h-5 w-5" />,
+            icon: <XCircle className="h-5 w-5" strokeWidth={2} />,
             duration: 0, // Won't auto-dismiss
           });
         }
@@ -115,19 +118,21 @@ export default function Home() {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col ${darkMode ? "dark" : ""}`}>
+    <div
+      className={`min-h-screen flex flex-col ${darkMode ? "dark" : ""} transition-colors duration-300`}
+    >
       <Head>
         <title>ProDevOpsGuy - Status Dashboard</title>
         <meta
           name="description"
           content="Real-time status of ProDevOpsGuy Tech platforms and websites"
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </Head>
 
       <Header toggleTheme={handleToggleDarkMode} isDarkMode={darkMode} />
 
-      <main className="flex-grow py-8 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900">
+      <main className="flex-grow py-8 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <div className="max-w-7xl mx-auto">
           {loading ? (
             // Loading state
@@ -145,7 +150,10 @@ export default function Home() {
                   {/* Operational Percentage */}
                   <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center">
                     <div className="bg-green-100 dark:bg-green-900/20 p-3 rounded-full mr-4">
-                      <CheckCircleIcon className="h-6 w-6 text-green-600 dark:text-green-400" />
+                      <CheckCircle
+                        className="h-6 w-6 text-green-600 dark:text-green-400"
+                        strokeWidth={2}
+                      />
                     </div>
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -163,7 +171,10 @@ export default function Home() {
                   {/* Average Response Time */}
                   <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center">
                     <div className="bg-blue-100 dark:bg-blue-900/20 p-3 rounded-full mr-4">
-                      <ClockIcon className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                      <Clock
+                        className="h-6 w-6 text-blue-600 dark:text-blue-400"
+                        strokeWidth={2}
+                      />
                     </div>
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -181,7 +192,10 @@ export default function Home() {
                   {/* Sites with Issues */}
                   <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center">
                     <div className="bg-red-100 dark:bg-red-900/20 p-3 rounded-full mr-4">
-                      <ServerIcon className="h-6 w-6 text-red-600 dark:text-red-400" />
+                      <Server
+                        className="h-6 w-6 text-red-600 dark:text-red-400"
+                        strokeWidth={2}
+                      />
                     </div>
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -203,33 +217,62 @@ export default function Home() {
               {/* Sites Status List */}
               <div className="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6 mb-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
-                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 sm:mb-0">
-                    Site Status
-                  </h2>
-                  <RefreshButton
-                    onRefresh={() => fetchData(true)}
-                    lastUpdated={lastUpdated}
-                    isRefreshing={refreshing}
-                  />
-                  {metrics && metrics.source && (
-                    <p className="text-xs text-gray-400 mt-1">
-                      Source:{" "}
-                      {metrics.source === "static"
-                        ? "Static data"
-                        : "Real-time check"}
-                    </p>
-                  )}
+                  <div className="flex items-center mb-3 sm:mb-0">
+                    <BarChart2
+                      className="h-6 w-6 text-blue-600 dark:text-blue-400 mr-2"
+                      strokeWidth={2}
+                    />
+                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                      Site Status
+                    </h2>
+                  </div>
+                  <div className="flex flex-col items-end">
+                    <RefreshButton
+                      onRefresh={() => fetchData(true)}
+                      lastUpdated={lastUpdated}
+                      isRefreshing={refreshing}
+                    />
+                    {metrics && metrics.source && (
+                      <div className="flex items-center text-xs text-gray-400 mt-1.5">
+                        {metrics.source === "static" ? (
+                          <Server className="h-3 w-3 mr-1" />
+                        ) : (
+                          <Activity className="h-3 w-3 mr-1" />
+                        )}
+                        <span>
+                          Source:{" "}
+                          {metrics.source === "static"
+                            ? "Static data"
+                            : "Real-time check"}
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-1 gap-4">
+                <div className="grid grid-cols-1 gap-5">
                   {sites.length > 0 ? (
-                    sites.map((site) => (
-                      <SiteStatusCard key={site.id} site={site} />
+                    sites.map((site, index) => (
+                      <SiteStatusCard
+                        key={site.id}
+                        site={site}
+                        className={
+                          index % 2 === 0
+                            ? "transform hover:-translate-y-1"
+                            : "transform hover:translate-y-1"
+                        }
+                      />
                     ))
                   ) : (
-                    <p className="text-gray-500 dark:text-gray-400 text-center py-8">
-                      No sites found.
-                    </p>
+                    <div className="flex flex-col items-center justify-center py-12 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+                      <RefreshCw className="h-12 w-12 text-gray-400 dark:text-gray-500 mb-4" />
+                      <p className="text-gray-500 dark:text-gray-400 text-center text-lg">
+                        No sites found.
+                      </p>
+                      <p className="text-gray-400 dark:text-gray-500 text-center text-sm mt-1">
+                        Try refreshing or check back later
+                      </p>
+                    </div>
                   )}
                 </div>
               </div>
