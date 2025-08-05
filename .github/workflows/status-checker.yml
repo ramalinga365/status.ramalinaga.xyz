@@ -15,6 +15,9 @@ on:
         required: true
         default: 'master'
 
+permissions:
+  contents: write
+
 jobs:
   check-status:
     runs-on: ubuntu-latest
