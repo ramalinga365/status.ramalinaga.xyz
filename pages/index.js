@@ -132,12 +132,12 @@ export default function Home() {
 
       <Header toggleTheme={handleToggleDarkMode} isDarkMode={darkMode} />
 
-      <main className="flex-grow py-8 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+      <main className="flex-grow py-4 sm:py-8 px-3 sm:px-4 md:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <div className="max-w-7xl mx-auto">
           {loading ? (
             // Loading state
-            <div className="flex justify-center items-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+            <div className="flex justify-center items-center h-48 sm:h-64">
+              <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-t-2 border-b-2 border-blue-500"></div>
             </div>
           ) : (
             <>
@@ -146,65 +146,65 @@ export default function Home() {
 
               {/* System Metrics */}
               {metrics && (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
                   {/* Operational Percentage */}
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center">
-                    <div className="bg-green-100 dark:bg-green-900/20 p-3 rounded-full mr-4">
+                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-3 sm:p-4 flex items-center">
+                    <div className="bg-green-100 dark:bg-green-900/20 p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
                       <CheckCircle
-                        className="h-6 w-6 text-green-600 dark:text-green-400"
+                        className="h-5 w-5 sm:h-6 sm:w-6 text-green-600 dark:text-green-400"
                         strokeWidth={2}
                       />
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                      <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                         Operational
                       </p>
-                      <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                      <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
                         {metrics.operationalPercentage}%
                       </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                      <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">
                         {metrics.totalSites} monitored sites
                       </p>
                     </div>
                   </div>
 
                   {/* Average Response Time */}
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center">
-                    <div className="bg-blue-100 dark:bg-blue-900/20 p-3 rounded-full mr-4">
+                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-3 sm:p-4 flex items-center">
+                    <div className="bg-blue-100 dark:bg-blue-900/20 p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
                       <Clock
-                        className="h-6 w-6 text-blue-600 dark:text-blue-400"
+                        className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600 dark:text-blue-400"
                         strokeWidth={2}
                       />
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                      <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                         Avg Response Time
                       </p>
-                      <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                      <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
                         {metrics.averageResponseTime} ms
                       </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                      <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">
                         For operational sites
                       </p>
                     </div>
                   </div>
 
                   {/* Sites with Issues */}
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex items-center">
-                    <div className="bg-red-100 dark:bg-red-900/20 p-3 rounded-full mr-4">
+                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-3 sm:p-4 flex items-center">
+                    <div className="bg-red-100 dark:bg-red-900/20 p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
                       <Server
-                        className="h-6 w-6 text-red-600 dark:text-red-400"
+                        className="h-5 w-5 sm:h-6 sm:w-6 text-red-600 dark:text-red-400"
                         strokeWidth={2}
                       />
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                      <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                         Sites with Issues
                       </p>
-                      <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                      <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
                         {metrics.sitesWithIssues.length}
                       </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                      <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">
                         {metrics.sitesWithIssues.length
                           ? "Requires attention"
                           : "All systems operational"}
@@ -215,14 +215,14 @@ export default function Home() {
               )}
 
               {/* Sites Status List */}
-              <div className="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6 mb-6">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+              <div className="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-4 sm:p-6 mb-4 sm:mb-6">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6">
                   <div className="flex items-center mb-3 sm:mb-0">
                     <BarChart2
-                      className="h-6 w-6 text-blue-600 dark:text-blue-400 mr-2"
+                      className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600 dark:text-blue-400 mr-2"
                       strokeWidth={2}
                     />
-                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                    <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">
                       Site Status
                     </h2>
                   </div>
@@ -250,7 +250,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 gap-5">
+                <div className="grid grid-cols-1 gap-3 sm:gap-5">
                   {sites.length > 0 ? (
                     sites.map((site, index) => (
                       <SiteStatusCard
@@ -264,12 +264,12 @@ export default function Home() {
                       />
                     ))
                   ) : (
-                    <div className="flex flex-col items-center justify-center py-12 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
-                      <RefreshCw className="h-12 w-12 text-gray-400 dark:text-gray-500 mb-4" />
-                      <p className="text-gray-500 dark:text-gray-400 text-center text-lg">
+                    <div className="flex flex-col items-center justify-center py-8 sm:py-12 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+                      <RefreshCw className="h-10 w-10 sm:h-12 sm:w-12 text-gray-400 dark:text-gray-500 mb-3 sm:mb-4" />
+                      <p className="text-gray-500 dark:text-gray-400 text-center text-base sm:text-lg">
                         No sites found.
                       </p>
-                      <p className="text-gray-400 dark:text-gray-500 text-center text-sm mt-1">
+                      <p className="text-gray-400 dark:text-gray-500 text-center text-xs sm:text-sm mt-1">
                         Try refreshing or check back later
                       </p>
                     </div>

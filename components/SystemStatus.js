@@ -94,37 +94,39 @@ const SystemStatus = ({ sites }) => {
 
   return (
     <div
-      className={`rounded-lg border ${statusConfig.borderColor} ${statusConfig.bgColor} p-6 mb-6 shadow-sm transition-all duration-300 hover:shadow-md`}
+      className={`rounded-lg border ${statusConfig.borderColor} ${statusConfig.bgColor} p-4 sm:p-6 mb-4 sm:mb-6 shadow-sm transition-all duration-300 hover:shadow-md`}
     >
       <div className="flex flex-col md:flex-row md:items-center justify-between">
-        <div className="flex flex-col sm:flex-row sm:items-center mb-6 md:mb-0">
-          <div className="p-3 bg-white dark:bg-gray-700 rounded-xl shadow-md mb-4 sm:mb-0 sm:mr-5">
+        <div className="flex flex-col sm:flex-row sm:items-center mb-4 sm:mb-6 md:mb-0">
+          <div className="p-2 sm:p-3 bg-white dark:bg-gray-700 rounded-xl shadow-md mb-3 sm:mb-0 sm:mr-5">
             {statusConfig.icon}
           </div>
           <div>
-            <h2 className={`text-2xl font-semibold ${statusConfig.textColor}`}>
+            <h2
+              className={`text-xl sm:text-2xl font-semibold ${statusConfig.textColor}`}
+            >
               {statusConfig.title}
             </h2>
-            <p className="text-gray-600 dark:text-gray-300 mt-1">
+            <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
               {statusConfig.description}
             </p>
-            <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-3">
-              <Clock className="h-4 w-4 mr-1" />
+            <div className="flex items-center text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-2 sm:mt-3">
+              <Clock className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
               <span>Last checked: {new Date().toLocaleString()}</span>
             </div>
           </div>
         </div>
-        <div className="bg-white dark:bg-gray-700 rounded-xl h-28 w-28 flex flex-col items-center justify-center shadow-md transform transition-transform hover:scale-105 relative overflow-hidden">
+        <div className="bg-white dark:bg-gray-700 rounded-xl h-24 w-24 sm:h-28 sm:w-28 flex flex-col items-center justify-center shadow-md transform transition-transform hover:scale-105 relative overflow-hidden">
           <div
             className={`absolute inset-x-0 top-0 h-1 ${overallStatus === "operational" ? "bg-green-500" : overallStatus === "degraded" ? "bg-yellow-500" : "bg-red-500"}`}
           ></div>
-          <span className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+          <span className="text-2xl sm:text-3xl font-bold text-blue-600 dark:text-blue-400">
             {calculateOperationalPercentage()}%
           </span>
           <span className="text-xs text-gray-500 dark:text-gray-400">
             Operational
           </span>
-          <span className="text-[10px] text-gray-400 dark:text-gray-500 mt-1">
+          <span className="text-[9px] sm:text-[10px] text-gray-400 dark:text-gray-500 mt-0.5 sm:mt-1">
             {sites.length} sites monitored
           </span>
         </div>

@@ -60,7 +60,7 @@ const SiteStatusCard = ({ site }) => {
 
   return (
     <div
-      className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm p-5 flex flex-col border-l-4 ${statusClasses.border} transition-all duration-300 hover:shadow-md ${statusClasses.bgHover}`}
+      className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm p-5 sm:p-5 p-3 flex flex-col border-l-4 ${statusClasses.border} transition-all duration-300 hover:shadow-md ${statusClasses.bgHover}`}
     >
       <div className="flex items-start justify-between">
         <div className="flex items-center">
@@ -76,16 +76,16 @@ const SiteStatusCard = ({ site }) => {
             )}
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
               {name}
             </h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
               {description}
             </p>
           </div>
         </div>
         <span
-          className={`px-2.5 py-1 rounded-full text-xs font-medium flex items-center space-x-1 ${statusClasses.badge}`}
+          className={`px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-xs font-medium flex items-center space-x-1 ${statusClasses.badge}`}
         >
           <span
             className={`w-2 h-2 rounded-full inline-block ${status === "operational" ? "bg-green-500" : status === "degraded" ? "bg-yellow-500" : "bg-red-500"}`}
@@ -94,32 +94,32 @@ const SiteStatusCard = ({ site }) => {
         </span>
       </div>
 
-      <div className="mt-4 flex items-center justify-between text-sm">
-        <div className="flex space-x-4">
+      <div className="mt-3 sm:mt-4 flex flex-wrap sm:flex-nowrap items-center justify-between text-xs sm:text-sm">
+        <div className="flex space-x-2 sm:space-x-4 mb-2 sm:mb-0 w-full sm:w-auto">
           <Link
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center"
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center text-xs sm:text-sm"
           >
             <span>Visit Site</span>
             <ExternalLink className="h-3.5 w-3.5 ml-1" />
           </Link>
           <Link
             href={`/site/${site.id}`}
-            className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium flex items-center"
+            className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium flex items-center text-xs sm:text-sm"
           >
             <span>View Details</span>
             <BarChart2 className="h-3.5 w-3.5 ml-1" />
           </Link>
         </div>
-        <div className="flex items-center space-x-4">
-          <span className="text-gray-500 dark:text-gray-400 flex items-center">
-            <Activity className="h-3.5 w-3.5 mr-1" />
+        <div className="flex items-center space-x-2 sm:space-x-4">
+          <span className="text-gray-500 dark:text-gray-400 flex items-center text-xs sm:text-sm">
+            <Activity className="h-3 sm:h-3.5 w-3 sm:w-3.5 mr-1" />
             <span>{responseTime}ms</span>
           </span>
-          <span className="text-gray-500 dark:text-gray-400 flex items-center">
-            <Clock className="h-3.5 w-3.5 mr-1" />
+          <span className="text-gray-500 dark:text-gray-400 flex items-center text-xs sm:text-sm">
+            <Clock className="h-3 sm:h-3.5 w-3 sm:w-3.5 mr-1" />
             <span>{formatTime(lastChecked)}</span>
           </span>
         </div>
