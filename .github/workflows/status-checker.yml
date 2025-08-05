@@ -41,4 +41,4 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add public/status-data.json
           git diff --staged --quiet || git commit -m "${{ inputs.message }}"
-          git push origin ${inputs.branch}
+          git push origin "${{ inputs.branch }}"
