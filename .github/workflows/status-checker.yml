@@ -31,11 +31,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: ./status.prodevopsguytech.com
 
       - name: Run status check
         run: node scripts/check-status.js
-        working-directory: ./status.prodevopsguytech.com
 
       - name: Commit changes if status data has changed
         run: |
