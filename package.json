@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "tailwindcss init -p"
+    "postinstall": "tailwindcss init -p",
+    "check-status": "node scripts/check-status.js",
+    "update-status": "node scripts/update-status-data.js"
   },
   "keywords": [],
   "author": "",

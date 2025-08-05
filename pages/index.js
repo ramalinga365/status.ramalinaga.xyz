@@ -6,7 +6,7 @@ import SystemStatus from "../components/SystemStatus";
 import SiteStatusCard from "../components/SiteStatusCard";
 import RefreshButton from "../components/RefreshButton";
 import { initializeDarkMode, toggleDarkMode } from "../lib/utils";
-import axios from "axios";
+import { fetchStatusData } from "../lib/utils/statusData";
 import {
   CheckCircleIcon,
   ClockIcon,
@@ -40,20 +40,21 @@ export default function Home() {
         setRefreshing(true);
       }
 
-      // Fetch site statuses from our API with real-time data
-      const response = await axios.get(
-        `/api/status${forceRefresh ? "?refresh=true" : ""}`,
-      );
+      // Fetch site statuses with fallback to static data if real-time fails
+      const data = await fetchStatusData({
+        preferStatic: false,
+        refresh: forceRefresh,
+      });
 
       // Save current sites for comparison
       if (sites.length > 0) {
         setPreviousSites([...sites]);
       }
 
-      const newSites = response.data.sites;
+      const newSites = data.sites;
       setSites(newSites);
-      setMetrics(response.data.metrics);
-      setLastUpdated(new Date(response.data.timestamp || Date.now()));
+      setMetrics(data.metrics);
+      setLastUpdated(new Date(data.timestamp || Date.now()));
 
       // Check for status changes and notify
       if (previousSites.length > 0 && newSites.length > 0) {
@@ -210,6 +211,14 @@ export default function Home() {
                     lastUpdated={lastUpdated}
                     isRefreshing={refreshing}
                   />
+                  {metrics && metrics.source && (
+                    <p className="text-xs text-gray-400 mt-1">
+                      Source:{" "}
+                      {metrics.source === "static"
+                        ? "Static data"
+                        : "Real-time check"}
+                    </p>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-1 gap-4">

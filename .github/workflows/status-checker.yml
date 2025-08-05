@@ -1,0 +1,46 @@
+name: Status Page Updater
+
+on:
+  schedule:
+    # Run 4 times daily: 00:00, 06:00, 12:00, 18:00 UTC
+    - cron: '0 0,6,12,18 * * *'
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Message to commit'
+        required: true
+        default: 'status: Update status data [skip ci]'
+      branch:
+        description: 'Branch to commit to'
+        required: true
+        default: 'master'
+
+jobs:
+  check-status:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./status.prodevopsguytech.com
+
+      - name: Run status check
+        run: node scripts/check-status.js
+        working-directory: ./status.prodevopsguytech.com
+
+      - name: Commit changes if status data has changed
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add public/status-data.json
+          git diff --staged --quiet || git commit -m "${{ inputs.message }}"
+          git push origin ${inputs.branch}
