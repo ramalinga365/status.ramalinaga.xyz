@@ -1,0 +1,32 @@
+{
+  "name": "status.prodevopsguytech.com",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "postinstall": "tailwindcss init -p"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@headlessui/react": "^1.7.15",
+    "@heroicons/react": "^1.0.6",
+    "axios": "^1.11.0",
+    "chart.js": "^4.5.0",
+    "dayjs": "^1.11.13",
+    "next": "^13.4.19",
+    "react": "^18.2.0",
+    "react-chartjs-2": "^5.3.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.3.0"
+  }
+}
