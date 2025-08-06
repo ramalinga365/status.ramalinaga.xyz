@@ -130,7 +130,7 @@ const SearchSites = ({ sites = [], onResultSelect, className = "" }) => {
     <div className={`search-sites relative ${className}`}>
       <motion.button
         onClick={toggleSearch}
-        className="flex items-center space-x-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+        className="flex items-center gap-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-2.5 sm:px-3 py-1.5 sm:py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors min-w-[32px] sm:min-w-[auto] justify-center sm:justify-start"
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         aria-expanded={isOpen}
@@ -143,14 +143,16 @@ const SearchSites = ({ sites = [], onResultSelect, className = "" }) => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-start justify-center pt-16 px-4 bg-black/20 dark:bg-black/50"
+            className="fixed inset-0 z-50 flex items-start justify-center pt-16 px-4 bg-black/20 dark:bg-black/50 cursor-pointer"
+            onClick={() => setIsOpen(false)}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
             <motion.div
-              className="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden"
+              className="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden cursor-default"
+              onClick={(e) => e.stopPropagation()}
               initial={{ y: -50, scale: 0.95 }}
               animate={{ y: 0, scale: 1 }}
               exit={{ y: -50, scale: 0.95 }}

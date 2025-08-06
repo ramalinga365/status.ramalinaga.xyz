@@ -66,9 +66,9 @@ export default function StatusFilter({ onFilterChange }) {
   return (
     <div className="flex flex-col">
       <div className="relative" ref={dropdownRef}>
-        <motion.div className="flex items-center space-x-2">
+        <motion.div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
           <motion.button
-            className={`flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm transition-all duration-200 ${
+            className={`flex items-center gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm transition-all duration-200 ${
               isOpen
                 ? "ring-2 ring-blue-500 border-transparent"
                 : "hover:bg-gray-50 dark:hover:bg-gray-700"
@@ -82,7 +82,7 @@ export default function StatusFilter({ onFilterChange }) {
             whileTap={{ scale: 0.98 }}
           >
             <Filter className="w-4 h-4" />
-            <span>Filter</span>
+            <span className="hidden sm:inline">Filter</span>
             {selectedFilters.length > 0 && (
               <motion.span
                 initial={{ scale: 0 }}
@@ -96,7 +96,7 @@ export default function StatusFilter({ onFilterChange }) {
 
           {selectedFilters.length > 0 && (
             <motion.div 
-              className="flex flex-wrap gap-2"
+              className="flex flex-wrap gap-1.5 sm:gap-2 max-w-full sm:max-w-none overflow-x-auto"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
@@ -105,7 +105,7 @@ export default function StatusFilter({ onFilterChange }) {
                 return (
                   <motion.span
                     key={filter}
-                    className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                    className="inline-flex items-center px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 whitespace-nowrap"
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     exit={{ scale: 0 }}
@@ -132,7 +132,7 @@ export default function StatusFilter({ onFilterChange }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="absolute right-0 z-10 mt-2 w-64 origin-top-right rounded-lg bg-white dark:bg-gray-800 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden"
+              className="fixed sm:absolute right-2 left-2 sm:left-auto sm:right-0 top-20 sm:top-auto z-50 mt-2 sm:w-64 origin-top rounded-lg bg-white dark:bg-gray-800 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden"
               role="menu"
               aria-orientation="vertical"
               aria-labelledby="status-filter-button"

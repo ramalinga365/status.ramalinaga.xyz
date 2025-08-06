@@ -338,11 +338,10 @@ export default function Home() {
                         Site Status
                       </h2>
                     </div>
-                    <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2">
+                    <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0">
                       <SearchSites
                         sites={sites}
                         onResultSelect={handleSearchResultSelect}
-                        className="mb-2 sm:mb-0 sm:mr-2"
                       />
                       <StatusFilter onFilterChange={handleFilterChange} />
                       <RefreshButton
