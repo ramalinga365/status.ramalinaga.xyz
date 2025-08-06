@@ -44,5 +44,5 @@ jobs:
           git config --local user.name "NotHarshhaa"
           git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git
           git add public/status-data.json
-          git diff --staged --quiet || git commit -m "${{ inputs.message }}"
-          git push origin "${{ inputs.branch }}"
+          git diff --staged --quiet || git commit -m "${{ inputs.message || 'status: Update status data [skip ci]' }}"
+          git push origin "${{ inputs.branch || 'master' }}"
