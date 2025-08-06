@@ -6,18 +6,18 @@
  * This JSON file can then be fetched by the frontend to display real-time status.
  */
 
-const fs = require('fs');
-const path = require('path');
-const axios = require('axios');
-const https = require('https');
+const fs = require("fs");
+const path = require("path");
+const axios = require("axios");
+const https = require("https");
 
 // Create an axios instance with configurations optimized for status checks
 const statusAxios = axios.create({
   timeout: 15000, // 15 second timeout
-  validateStatus: status => true, // Don't reject any status codes to analyze them manually
+  validateStatus: (status) => true, // Don't reject any status codes to analyze them manually
   httpsAgent: new https.Agent({
-    rejectUnauthorized: false // Allow self-signed certificates for checking
-  })
+    rejectUnauthorized: false, // Allow self-signed certificates for checking
+  }),
 });
 
 // Define the list of sites to monitor - same as in API route
@@ -101,8 +101,8 @@ const sitesConfig = [
  */
 async function checkSiteStatus(site) {
   const startTime = Date.now();
-  let status = 'operational';
-  let statusText = 'Operational';
+  let status = "operational";
+  let statusText = "Operational";
   let statusCode = null;
   let responseTime = null;
   let error = null;
@@ -110,7 +110,7 @@ async function checkSiteStatus(site) {
   try {
     // Make the HTTP request
     const response = await statusAxios.get(site.url, {
-      timeout: 10000 // 10 second timeout for each individual request
+      timeout: 10000, // 10 second timeout for each individual request
     });
 
     // Calculate response time
@@ -121,26 +121,26 @@ async function checkSiteStatus(site) {
 
     // Determine status based on response
     if (statusCode >= 500) {
-      status = 'outage';
-      statusText = 'Server Error';
+      status = "outage";
+      statusText = "Server Error";
     } else if (statusCode >= 400) {
-      status = 'degraded';
-      statusText = 'Client Error';
+      status = "degraded";
+      statusText = "Client Error";
     } else if (responseTime > 3000) {
-      status = 'degraded';
-      statusText = 'Slow Response';
+      status = "degraded";
+      statusText = "Slow Response";
     } else if (statusCode >= 200 && statusCode < 300) {
-      status = 'operational';
-      statusText = 'Operational';
+      status = "operational";
+      statusText = "Operational";
     } else {
-      status = 'degraded';
-      statusText = 'Unusual Response';
+      status = "degraded";
+      statusText = "Unusual Response";
     }
   } catch (err) {
     // Handle timeout or connection errors
-    error = err.message || 'Connection error';
-    status = 'outage';
-    statusText = 'Connection Failed';
+    error = err.message || "Connection error";
+    status = "outage";
+    statusText = "Connection Failed";
     responseTime = Date.now() - startTime;
   }
 
@@ -170,10 +170,10 @@ async function checkSiteStatus(site) {
 async function checkAllSites(sites) {
   try {
     console.log(`Starting status check for ${sites.length} sites...`);
-    const statusPromises = sites.map(site => checkSiteStatus(site));
+    const statusPromises = sites.map((site) => checkSiteStatus(site));
     return await Promise.all(statusPromises);
   } catch (error) {
-    console.error('Error checking sites:', error);
+    console.error("Error checking sites:", error);
     return [];
   }
 }
@@ -186,39 +186,49 @@ async function checkAllSites(sites) {
 function calculateSystemHealth(siteStatuses) {
   if (!siteStatuses || siteStatuses.length === 0) {
     return {
-      status: 'unknown',
+      status: "unknown",
       operationalPercentage: 0,
       averageResponseTime: 0,
-      sitesWithIssues: []
+      sitesWithIssues: [],
     };
   }
 
-  const operationalCount = siteStatuses.filter(site => site.status === 'operational').length;
-  const operationalPercentage = Math.round((operationalCount / siteStatuses.length) * 100);
+  const operationalCount = siteStatuses.filter(
+    (site) => site.status === "operational",
+  ).length;
+  const operationalPercentage = Math.round(
+    (operationalCount / siteStatuses.length) * 100,
+  );
 
   // Calculate average response time for operational sites
-  const operationalSites = siteStatuses.filter(site => site.status === 'operational');
-  const totalResponseTime = operationalSites.reduce((sum, site) => sum + (site.responseTime || 0), 0);
-  const averageResponseTime = operationalSites.length > 0
-    ? Math.round(totalResponseTime / operationalSites.length)
-    : 0;
+  const operationalSites = siteStatuses.filter(
+    (site) => site.status === "operational",
+  );
+  const totalResponseTime = operationalSites.reduce(
+    (sum, site) => sum + (site.responseTime || 0),
+    0,
+  );
+  const averageResponseTime =
+    operationalSites.length > 0
+      ? Math.round(totalResponseTime / operationalSites.length)
+      : 0;
 
   // Get sites with issues
   const sitesWithIssues = siteStatuses
-    .filter(site => site.status !== 'operational')
-    .map(site => ({
+    .filter((site) => site.status !== "operational")
+    .map((site) => ({
       id: site.id,
       name: site.name,
       status: site.status,
-      statusText: site.statusText
+      statusText: site.statusText,
     }));
 
   // Determine overall status
-  let status = 'operational';
-  if (siteStatuses.some(site => site.status === 'outage')) {
-    status = 'outage';
-  } else if (siteStatuses.some(site => site.status === 'degraded')) {
-    status = 'degraded';
+  let status = "operational";
+  if (siteStatuses.some((site) => site.status === "outage")) {
+    status = "outage";
+  } else if (siteStatuses.some((site) => site.status === "degraded")) {
+    status = "degraded";
   }
 
   return {
@@ -226,7 +236,7 @@ function calculateSystemHealth(siteStatuses) {
     operationalPercentage,
     averageResponseTime,
     sitesWithIssues,
-    totalSites: siteStatuses.length
+    totalSites: siteStatuses.length,
   };
 }
 
@@ -245,21 +255,21 @@ function updateHistoricalData(existingData, currentSiteStatuses) {
       ...existingData,
       historical: {
         hourly: {},
-        daily: {}
-      }
+        daily: {},
+      },
     };
   }
 
   const historical = existingData.historical;
 
   // Get today's date in YYYY-MM-DD format for daily data
-  const todayKey = now.toISOString().split('T')[0];
+  const todayKey = now.toISOString().split("T")[0];
 
   // Get current hour in YYYY-MM-DDTHH format for hourly data
-  const hourKey = now.toISOString().split(':')[0];
+  const hourKey = now.toISOString().split(":")[0];
 
   // Process each site
-  currentSiteStatuses.forEach(site => {
+  currentSiteStatuses.forEach((site) => {
     // Initialize site data if it doesn't exist
     if (!historical.hourly[site.id]) {
       historical.hourly[site.id] = {};
@@ -271,7 +281,7 @@ function updateHistoricalData(existingData, currentSiteStatuses) {
     // Update hourly data
     historical.hourly[site.id][hourKey] = {
       status: site.status,
-      responseTime: site.responseTime
+      responseTime: site.responseTime,
     };
 
     // Update or initialize daily data
@@ -281,7 +291,7 @@ function updateHistoricalData(existingData, currentSiteStatuses) {
         operational: 0,
         degraded: 0,
         outage: 0,
-        totalResponseTime: 0
+        totalResponseTime: 0,
       };
     }
 
@@ -291,38 +301,54 @@ function updateHistoricalData(existingData, currentSiteStatuses) {
     dailyData.totalResponseTime += site.responseTime;
 
     // Calculate uptime percentage
-    dailyData.uptime = Math.round((dailyData.operational / dailyData.checks) * 100);
-    dailyData.avgResponseTime = Math.round(dailyData.totalResponseTime / dailyData.checks);
+    dailyData.uptime = Math.round(
+      (dailyData.operational / dailyData.checks) * 100,
+    );
+    dailyData.avgResponseTime = Math.round(
+      dailyData.totalResponseTime / dailyData.checks,
+    );
   });
 
-  // Clean up old data (keep 7 days of daily data and 48 hours of hourly data)
+  // Clean up old data (keep only the last 7 days of data)
   const cleanupHistoricalData = () => {
     // For daily data, keep last 7 days
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - 7);
-    const cutoffDailyKey = cutoffDate.toISOString().split('T')[0];
+    const cutoffDailyKey = cutoffDate.toISOString().split("T")[0];
 
-    // For hourly data, keep last 48 hours
+    // For hourly data, keep last 24 hours (reduce from 48 to save space)
     const cutoffHour = new Date();
-    cutoffHour.setHours(cutoffHour.getHours() - 48);
-    const cutoffHourKey = cutoffHour.toISOString().split(':')[0];
+    cutoffHour.setHours(cutoffHour.getHours() - 24);
+    const cutoffHourKey = cutoffHour.toISOString().split(":")[0];
 
-    // Clean up each site's data
-    Object.keys(historical.daily).forEach(siteId => {
-      Object.keys(historical.daily[siteId]).forEach(dateKey => {
+    // Clean up each site's data with logging for visibility
+    console.log(`Cleaning up historical data older than ${cutoffDailyKey}`);
+    let removedDailyEntries = 0;
+    let removedHourlyEntries = 0;
+
+    Object.keys(historical.daily).forEach((siteId) => {
+      Object.keys(historical.daily[siteId]).forEach((dateKey) => {
         if (dateKey < cutoffDailyKey) {
           delete historical.daily[siteId][dateKey];
+          removedDailyEntries++;
         }
       });
     });
 
-    Object.keys(historical.hourly).forEach(siteId => {
-      Object.keys(historical.hourly[siteId]).forEach(hourKey => {
+    Object.keys(historical.hourly).forEach((siteId) => {
+      Object.keys(historical.hourly[siteId]).forEach((hourKey) => {
         if (hourKey < cutoffHourKey) {
           delete historical.hourly[siteId][hourKey];
+          removedHourlyEntries++;
         }
       });
     });
+
+    if (removedDailyEntries > 0 || removedHourlyEntries > 0) {
+      console.log(
+        `Removed ${removedDailyEntries} daily entries and ${removedHourlyEntries} hourly entries from historical data`,
+      );
+    }
   };
 
   cleanupHistoricalData();
@@ -342,17 +368,20 @@ async function main() {
     const healthMetrics = calculateSystemHealth(siteStatuses);
 
     // Prepare the data file path
-    const dataFilePath = path.join(__dirname, '../public/status-data.json');
+    const dataFilePath = path.join(__dirname, "../public/status-data.json");
 
     // Load existing data if available
     let existingData = {};
     try {
       if (fs.existsSync(dataFilePath)) {
-        const fileContent = fs.readFileSync(dataFilePath, 'utf8');
+        const fileContent = fs.readFileSync(dataFilePath, "utf8");
         existingData = JSON.parse(fileContent);
       }
     } catch (err) {
-      console.warn('Could not read existing data file, creating new one:', err.message);
+      console.warn(
+        "Could not read existing data file, creating new one:",
+        err.message,
+      );
     }
 
     // Update historical data
@@ -365,25 +394,36 @@ async function main() {
       metrics: healthMetrics,
       sites: siteStatuses,
       lastChecked: new Date().toISOString(),
-      historical
+      historical,
     };
+
+    // Calculate file size before writing
+    const beforeSize = fs.existsSync(dataFilePath)
+      ? (fs.statSync(dataFilePath).size / 1024).toFixed(2)
+      : 0;
 
     // Write the updated data to the file
     fs.writeFileSync(dataFilePath, JSON.stringify(statusData, null, 2));
 
+    // Calculate and log file size after writing
+    const afterSize = (fs.statSync(dataFilePath).size / 1024).toFixed(2);
+    console.log(`Status data file size: ${beforeSize}KB → ${afterSize}KB`);
+
     console.log(`Status check completed. Data saved to ${dataFilePath}`);
     console.log(`Overall system status: ${healthMetrics.status}`);
     console.log(`Operational sites: ${healthMetrics.operationalPercentage}%`);
-    console.log(`Average response time: ${healthMetrics.averageResponseTime}ms`);
+    console.log(
+      `Average response time: ${healthMetrics.averageResponseTime}ms`,
+    );
 
     if (healthMetrics.sitesWithIssues.length > 0) {
-      console.log('Sites with issues:');
-      healthMetrics.sitesWithIssues.forEach(site => {
+      console.log("Sites with issues:");
+      healthMetrics.sitesWithIssues.forEach((site) => {
         console.log(`- ${site.name}: ${site.status} (${site.statusText})`);
       });
     }
   } catch (error) {
-    console.error('Error in status check script:', error);
+    console.error("Error in status check script:", error);
     process.exit(1);
   }
 }
