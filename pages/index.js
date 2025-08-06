@@ -374,7 +374,7 @@ export default function Home() {
                   >
                     {sites.length > 0 ? (
                       <AnimatePresence>
-                        {(filteredSites.length > 0 ? filteredSites : sites).map(
+                        {(statusFilters.length === 0 ? sites : filteredSites).map(
                           (site, index) => (
                             <SiteStatusCard
                               key={site.id}
