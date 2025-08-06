@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { XIcon } from '@heroicons/react/outline';
+import React, { useState, useEffect, useRef } from "react";
+import { X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 /**
  * Notification Component
@@ -8,10 +9,10 @@ import { XIcon } from '@heroicons/react/outline';
  */
 const Notification = ({
   message,
-  type = 'info',
+  type = "info",
   duration = 5000,
   onDismiss,
-  icon
+  icon,
 }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
@@ -42,34 +43,34 @@ const Notification = ({
   // Set notification styling based on type
   const getTypeStyles = () => {
     switch (type) {
-      case 'success':
+      case "success":
         return {
-          bg: 'bg-green-50 dark:bg-green-900/20',
-          border: 'border-green-300 dark:border-green-800',
-          text: 'text-green-800 dark:text-green-100',
-          iconBg: 'bg-green-100 dark:bg-green-800'
+          bg: "bg-green-50 dark:bg-green-900/20",
+          border: "border-green-300 dark:border-green-800",
+          text: "text-green-800 dark:text-green-100",
+          iconBg: "bg-green-100 dark:bg-green-800",
         };
-      case 'error':
+      case "error":
         return {
-          bg: 'bg-red-50 dark:bg-red-900/20',
-          border: 'border-red-300 dark:border-red-800',
-          text: 'text-red-800 dark:text-red-100',
-          iconBg: 'bg-red-100 dark:bg-red-800'
+          bg: "bg-red-50 dark:bg-red-900/20",
+          border: "border-red-300 dark:border-red-800",
+          text: "text-red-800 dark:text-red-100",
+          iconBg: "bg-red-100 dark:bg-red-800",
         };
-      case 'warning':
+      case "warning":
         return {
-          bg: 'bg-yellow-50 dark:bg-yellow-900/20',
-          border: 'border-yellow-300 dark:border-yellow-800',
-          text: 'text-yellow-800 dark:text-yellow-100',
-          iconBg: 'bg-yellow-100 dark:bg-yellow-800'
+          bg: "bg-yellow-50 dark:bg-yellow-900/20",
+          border: "border-yellow-300 dark:border-yellow-800",
+          text: "text-yellow-800 dark:text-yellow-100",
+          iconBg: "bg-yellow-100 dark:bg-yellow-800",
         };
-      case 'info':
+      case "info":
       default:
         return {
-          bg: 'bg-blue-50 dark:bg-blue-900/20',
-          border: 'border-blue-300 dark:border-blue-800',
-          text: 'text-blue-800 dark:text-blue-100',
-          iconBg: 'bg-blue-100 dark:bg-blue-800'
+          bg: "bg-blue-50 dark:bg-blue-900/20",
+          border: "border-blue-300 dark:border-blue-800",
+          text: "text-blue-800 dark:text-blue-100",
+          iconBg: "bg-blue-100 dark:bg-blue-800",
         };
     }
   };
@@ -77,34 +78,54 @@ const Notification = ({
   const typeStyles = getTypeStyles();
 
   return (
-    <div
-      className={`fixed top-4 right-4 z-50 max-w-md transition-all duration-300 transform ${
-        isExiting ? 'opacity-0 translate-x-10' : 'opacity-100 translate-x-0'
-      }`}
+    <motion.div
+      className="fixed z-50 max-w-md"
+      initial={{ opacity: 0, y: -50, x: 20, right: 16, top: 16 }}
+      animate={{ opacity: 1, y: 0, x: 0, right: 16, top: 16 }}
+      exit={{ opacity: 0, y: -20, x: 20 }}
+      transition={{
+        type: "spring",
+        stiffness: 500,
+        damping: 30,
+      }}
     >
-      <div
-        className={`flex items-center p-4 rounded-lg shadow-md border ${typeStyles.bg} ${typeStyles.border}`}
+      <motion.div
+        className={`${typeStyles.bg} ${typeStyles.border} border rounded-lg shadow-lg p-4 flex items-start`}
         role="alert"
+        initial={{ scale: 0.9 }}
+        animate={{ scale: 1 }}
+        whileHover={{ scale: 1.02 }}
+        layout
       >
         {icon && (
-          <div className={`flex-shrink-0 ${typeStyles.iconBg} p-2 rounded-full mr-3`}>
+          <motion.div
+            className={`flex-shrink-0 ${typeStyles.iconBg} p-2 rounded-full mr-3`}
+            initial={{ rotate: -10, scale: 0.9 }}
+            animate={{ rotate: 0, scale: 1 }}
+            transition={{ duration: 0.3 }}
+          >
             {icon}
-          </div>
+          </motion.div>
         )}
-        <div className="flex-1">
-          <p className={`text-sm font-medium ${typeStyles.text}`}>
-            {message}
-          </p>
-        </div>
-        <button
-          onClick={handleDismiss}
-          className={`ml-4 ${typeStyles.text} hover:bg-opacity-20 hover:bg-gray-500 p-1 rounded-full focus:outline-none`}
+        <motion.div
+          className="flex-1"
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.1 }}
         >
-          <span className="sr-only">Dismiss</span>
-          <XIcon className="h-5 w-5" />
-        </button>
-      </div>
-    </div>
+          <p className={`text-sm font-medium ${typeStyles.text}`}>{message}</p>
+        </motion.div>
+        <motion.button
+          onClick={handleDismiss}
+          className="ml-4 text-gray-400 hover:text-gray-600 dark:text-gray-300 dark:hover:text-gray-100 focus:outline-none"
+          whileHover={{ rotate: 90 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ duration: 0.2 }}
+        >
+          <X className="h-4 w-4" />
+        </motion.button>
+      </motion.div>
+    </motion.div>
   );
 };
 
@@ -114,37 +135,49 @@ const Notification = ({
  * Manages multiple notifications in a stack
  */
 export const NotificationProvider = ({ children }) => {
+  // State to hold all notifications
   const [notifications, setNotifications] = useState([]);
+  const notificationLimit = useRef(5); // Maximum number of notifications to show at once
 
   // Add a new notification
   const addNotification = (notification) => {
     const id = Date.now();
-    setNotifications(prev => [...prev, { ...notification, id }]);
+    setNotifications((prev) => {
+      // If we already have the max number of notifications, remove the oldest one
+      if (prev.length >= notificationLimit.current) {
+        return [...prev.slice(1), { ...notification, id }];
+      }
+      return [...prev, { ...notification, id }];
+    });
     return id;
   };
 
   // Remove a notification by id
   const removeNotification = (id) => {
-    setNotifications(prev => prev.filter(notification => notification.id !== id));
+    setNotifications((prev) =>
+      prev.filter((notification) => notification.id !== id),
+    );
   };
 
   // Provide context value to children
   const contextValue = {
     addNotification,
-    removeNotification
+    removeNotification,
   };
 
   return (
     <>
       {children}
-      <div className="notification-container">
-        {notifications.map(notification => (
-          <Notification
-            key={notification.id}
-            {...notification}
-            onDismiss={() => removeNotification(notification.id)}
-          />
-        ))}
+      <div className="fixed top-4 right-4 z-50 space-y-3 flex flex-col items-end">
+        <AnimatePresence>
+          {notifications.map((notification) => (
+            <Notification
+              key={notification.id}
+              {...notification}
+              onDismiss={() => removeNotification(notification.id)}
+            />
+          ))}
+        </AnimatePresence>
       </div>
     </>
   );
@@ -153,7 +186,7 @@ export const NotificationProvider = ({ children }) => {
 // Create a notification context
 export const NotificationContext = React.createContext({
   addNotification: () => {},
-  removeNotification: () => {}
+  removeNotification: () => {},
 });
 
 // Custom hook to use notifications
@@ -161,47 +194,53 @@ export const useNotification = () => {
   const context = React.useContext(NotificationContext);
 
   if (!context) {
-    throw new Error('useNotification must be used within a NotificationProvider');
+    throw new Error(
+      "useNotification must be used within a NotificationProvider",
+    );
   }
 
   return {
     notify: (message, options = {}) => {
       return context.addNotification({
         message,
-        ...options
+        ...options,
       });
     },
     success: (message, options = {}) => {
       return context.addNotification({
         message,
-        type: 'success',
-        ...options
+        type: "success",
+        duration: 5000,
+        ...options,
       });
     },
     error: (message, options = {}) => {
       return context.addNotification({
         message,
-        type: 'error',
-        ...options
+        type: "error",
+        duration: 10000, // Errors stay longer by default
+        ...options,
       });
     },
     warning: (message, options = {}) => {
       return context.addNotification({
         message,
-        type: 'warning',
-        ...options
+        type: "warning",
+        duration: 7000, // Warnings stay a bit longer
+        ...options,
       });
     },
     info: (message, options = {}) => {
       return context.addNotification({
         message,
-        type: 'info',
-        ...options
+        type: "info",
+        duration: 5000,
+        ...options,
       });
     },
     dismiss: (id) => {
       context.removeNotification(id);
-    }
+    },
   };
 };
 

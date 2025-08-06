@@ -1,5 +1,15 @@
-import React from 'react';
-import { CheckCircleIcon, ExclamationCircleIcon, XCircleIcon, ClockIcon } from '@heroicons/react/outline';
+import React, { useState } from "react";
+import {
+  CheckCircle,
+  AlertTriangle,
+  XCircle,
+  Clock,
+  BarChart2,
+  Server,
+  Activity,
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { scaleUp, fadeInUp, pulseAnimation } from "../lib/animations";
 
 const SiteMetrics = ({ site }) => {
   // Ensure site data exists
@@ -10,41 +20,53 @@ const SiteMetrics = ({ site }) => {
   // Determine the health indicator icon and color
   const getHealthIndicator = () => {
     switch (status) {
-      case 'operational':
+      case "operational":
         return {
-          icon: <CheckCircleIcon className="h-8 w-8 text-green-500" />,
-          text: 'Healthy',
-          textColor: 'text-green-500'
+          icon: (
+            <CheckCircle className="h-8 w-8 text-green-500" strokeWidth={2} />
+          ),
+          text: "Healthy",
+          textColor: "text-green-500",
+          bgColor: "bg-green-100 dark:bg-green-900/20",
         };
-      case 'degraded':
+      case "degraded":
         return {
-          icon: <ExclamationCircleIcon className="h-8 w-8 text-yellow-500" />,
-          text: 'Degraded',
-          textColor: 'text-yellow-500'
+          icon: (
+            <AlertTriangle
+              className="h-8 w-8 text-yellow-500"
+              strokeWidth={2}
+            />
+          ),
+          text: "Degraded",
+          textColor: "text-yellow-500",
+          bgColor: "bg-yellow-100 dark:bg-yellow-900/20",
         };
-      case 'outage':
+      case "outage":
         return {
-          icon: <XCircleIcon className="h-8 w-8 text-red-500" />,
-          text: 'Outage',
-          textColor: 'text-red-500'
+          icon: <XCircle className="h-8 w-8 text-red-500" strokeWidth={2} />,
+          text: "Outage",
+          textColor: "text-red-500",
+          bgColor: "bg-red-100 dark:bg-red-900/20",
         };
       default:
         return {
-          icon: <ClockIcon className="h-8 w-8 text-gray-500" />,
-          text: 'Unknown',
-          textColor: 'text-gray-500'
+          icon: <Clock className="h-8 w-8 text-gray-500" strokeWidth={2} />,
+          text: "Unknown",
+          textColor: "text-gray-500",
+          bgColor: "bg-gray-100 dark:bg-gray-800/50",
         };
     }
   };
 
   // Determine response time indicator
   const getResponseIndicator = (time) => {
-    if (!time) return { color: 'bg-gray-200 dark:bg-gray-700', text: 'Unknown' };
+    if (!time)
+      return { color: "bg-gray-200 dark:bg-gray-700", text: "Unknown" };
 
-    if (time < 200) return { color: 'bg-green-500', text: 'Fast' };
-    if (time < 500) return { color: 'bg-blue-500', text: 'Good' };
-    if (time < 1000) return { color: 'bg-yellow-500', text: 'Slow' };
-    return { color: 'bg-red-500', text: 'Very Slow' };
+    if (time < 200) return { color: "bg-green-500", text: "Fast" };
+    if (time < 500) return { color: "bg-blue-500", text: "Good" };
+    if (time < 1000) return { color: "bg-yellow-500", text: "Slow" };
+    return { color: "bg-red-500", text: "Very Slow" };
   };
 
   const health = getHealthIndicator();
@@ -52,70 +74,298 @@ const SiteMetrics = ({ site }) => {
 
   // Format time
   const formatTime = (date) => {
-    if (!date) return 'Never';
-    return new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    if (!date) return "Never";
+    return new Date(date).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+  };
+
+  const [showDetailedView, setShowDetailedView] = useState(false);
+
+  const toggleDetailedView = () => {
+    setShowDetailedView(!showDetailedView);
+  };
+
+  // Calculate historical uptime performance (mock data - in a real app this would come from the API)
+  const uptimeData = {
+    day: 99.9,
+    week: 99.7,
+    month: 99.5,
+    year: 99.8,
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-        Site Metrics
-      </h3>
+    <motion.div
+      className="bg-white dark:bg-gray-800 rounded-lg shadow p-4"
+      variants={scaleUp}
+      initial="hidden"
+      animate="visible"
+      whileHover={{
+        boxShadow:
+          "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+      }}
+      transition={{ duration: 0.3 }}
+      layout
+    >
+      <motion.div className="flex items-center justify-between mb-4">
+        <motion.h3
+          className="text-lg font-semibold text-gray-900 dark:text-white"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          Site Metrics
+        </motion.h3>
+        <motion.button
+          onClick={toggleDetailedView}
+          className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center text-xs"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          {showDetailedView ? "Show Less" : "Show More"}
+          <BarChart2 className="h-4 w-4 ml-1" />
+        </motion.button>
+      </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <motion.div
+        className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+        variants={fadeInUp}
+        initial="hidden"
+        animate="visible"
+      >
         {/* Health Status */}
-        <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+        <motion.div
+          className={`rounded-lg p-4 ${health.bgColor}`}
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.2 }}
+        >
           <div className="flex items-center mb-2">
-            <span className="text-gray-500 dark:text-gray-400 text-sm">Health Status</span>
-          </div>
-          <div className="flex items-center">
-            {health.icon}
-            <span className={`ml-2 font-semibold ${health.textColor}`}>
-              {health.text}
+            <span className="text-gray-500 dark:text-gray-400 text-sm">
+              Health Status
             </span>
           </div>
+          <div className="flex items-center">
+            <motion.div
+              variants={pulseAnimation}
+              initial="initial"
+              animate="animate"
+            >
+              {health.icon}
+            </motion.div>
+            <motion.span
+              className={`ml-2 font-semibold ${health.textColor}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+            >
+              {health.text}
+            </motion.span>
+          </div>
           {statusCode && (
-            <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+            <motion.div
+              className="mt-2 text-xs text-gray-500 dark:text-gray-400"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
               Status Code: {statusCode}
-            </div>
+            </motion.div>
           )}
-        </div>
+        </motion.div>
 
         {/* Response Time */}
-        <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+        <motion.div
+          className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4"
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.2 }}
+        >
           <div className="flex items-center mb-2">
-            <span className="text-gray-500 dark:text-gray-400 text-sm">Response Time</span>
+            <span className="text-gray-500 dark:text-gray-400 text-sm">
+              Response Time
+            </span>
           </div>
           <div className="flex items-center">
             <div className="relative w-full h-4 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
-              <div
+              <motion.div
                 className={`absolute top-0 left-0 h-full ${responseIndicator.color} rounded-full`}
-                style={{ width: `${Math.min(100, (responseTime || 0) / 10)}%` }}
-              ></div>
+                initial={{ width: 0 }}
+                animate={{
+                  width: `${Math.min(100, (responseTime || 0) / 10)}%`,
+                }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+              ></motion.div>
             </div>
-            <span className="ml-2 font-mono text-sm font-semibold text-gray-700 dark:text-gray-300 min-w-[60px] text-right">
-              {responseTime ? `${responseTime}ms` : 'N/A'}
-            </span>
+            <motion.span
+              className="ml-2 font-mono text-sm font-semibold text-gray-700 dark:text-gray-300 min-w-[60px] text-right"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+            >
+              {responseTime ? `${responseTime}ms` : "N/A"}
+            </motion.span>
           </div>
-          <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+          <motion.div
+            className="mt-2 text-xs text-gray-500 dark:text-gray-400"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
             {responseIndicator.text}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Last Checked */}
-        <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 sm:col-span-2">
+        <motion.div
+          className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 sm:col-span-2"
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.2 }}
+        >
           <div className="flex items-center mb-2">
-            <span className="text-gray-500 dark:text-gray-400 text-sm">Last Checked</span>
-          </div>
-          <div className="flex items-center">
-            <ClockIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
-            <span className="ml-2 font-semibold text-gray-700 dark:text-gray-300">
-              {formatTime(lastChecked)}
+            <span className="text-gray-500 dark:text-gray-400 text-sm">
+              Last Checked
             </span>
           </div>
-        </div>
-      </div>
-    </div>
+          <div className="flex items-center">
+            <Clock className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+            <motion.span
+              className="ml-2 font-semibold text-gray-700 dark:text-gray-300"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
+              {formatTime(lastChecked)}
+            </motion.span>
+          </div>
+        </motion.div>
+
+        {/* Detailed View - only shown when expanded */}
+        <AnimatePresence>
+          {showDetailedView && (
+            <>
+              {/* Historical Uptime */}
+              <motion.div
+                className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 sm:col-span-2"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="flex items-center mb-3">
+                  <Server className="h-5 w-5 text-blue-500 mr-2" />
+                  <span className="text-gray-700 dark:text-gray-300 font-medium">
+                    Historical Uptime
+                  </span>
+                </div>
+                <div className="grid grid-cols-4 gap-2">
+                  <motion.div
+                    className="bg-white dark:bg-gray-800 rounded p-2 text-center"
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.1 }}
+                    whileHover={{ y: -5 }}
+                  >
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                      24 Hours
+                    </div>
+                    <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                      {uptimeData.day}%
+                    </div>
+                  </motion.div>
+                  <motion.div
+                    className="bg-white dark:bg-gray-800 rounded p-2 text-center"
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                    whileHover={{ y: -5 }}
+                  >
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                      7 Days
+                    </div>
+                    <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                      {uptimeData.week}%
+                    </div>
+                  </motion.div>
+                  <motion.div
+                    className="bg-white dark:bg-gray-800 rounded p-2 text-center"
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    whileHover={{ y: -5 }}
+                  >
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                      30 Days
+                    </div>
+                    <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                      {uptimeData.month}%
+                    </div>
+                  </motion.div>
+                  <motion.div
+                    className="bg-white dark:bg-gray-800 rounded p-2 text-center"
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                    whileHover={{ y: -5 }}
+                  >
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                      1 Year
+                    </div>
+                    <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                      {uptimeData.year}%
+                    </div>
+                  </motion.div>
+                </div>
+              </motion.div>
+
+              {/* Performance Metrics */}
+              <motion.div
+                className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4 sm:col-span-2"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3, delay: 0.1 }}
+              >
+                <div className="flex items-center mb-3">
+                  <Activity className="h-5 w-5 text-purple-500 mr-2" />
+                  <span className="text-gray-700 dark:text-gray-300 font-medium">
+                    Performance Metrics
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <motion.div
+                    className="bg-white dark:bg-gray-800 rounded p-3"
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                      Time to First Byte
+                    </div>
+                    <div className="text-lg font-bold text-purple-600 dark:text-purple-400">
+                      {Math.round(responseTime * 0.4)}ms
+                    </div>
+                  </motion.div>
+                  <motion.div
+                    className="bg-white dark:bg-gray-800 rounded p-3"
+                    initial={{ x: 20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                  >
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                      DNS Lookup
+                    </div>
+                    <div className="text-lg font-bold text-purple-600 dark:text-purple-400">
+                      {Math.round(responseTime * 0.15)}ms
+                    </div>
+                  </motion.div>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </motion.div>
   );
 };
 

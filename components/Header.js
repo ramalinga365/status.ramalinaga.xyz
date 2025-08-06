@@ -1,11 +1,37 @@
 import React from "react";
-import Image from "next/image";
-import { Sun, Moon, BarChart2, Menu } from "lucide-react";
+import { useState, useEffect } from "react";
+import { BarChart2, Menu } from "lucide-react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const Header = ({ toggleTheme, isDarkMode }) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Handle theme change from the ThemeSwitcher component
+  const handleThemeChange = (isDark) => {
+    toggleTheme(isDark);
+  };
+
+  // Handle scroll events to change header appearance
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-50 transition-colors duration-300">
+    <motion.header
+      className={`bg-white dark:bg-gray-800 sticky top-0 z-50 transition-colors duration-300 ${
+        isScrolled ? "shadow-md" : "shadow-sm"
+      }`}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+    >
       <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
         <div className="flex justify-between items-center py-2 sm:py-4">
           <Link href="/" className="flex items-center group">
@@ -30,26 +56,21 @@ const Header = ({ toggleTheme, isDarkMode }) => {
             </div>
           </Link>
           <div className="flex items-center space-x-3">
-            <button
-              onClick={toggleTheme}
-              className="p-2 sm:p-2.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
-              aria-label={
-                isDarkMode ? "Switch to light mode" : "Switch to dark mode"
-              }
+            <ThemeSwitcher
+              currentTheme={isDarkMode ? "dark" : "light"}
+              onThemeChange={handleThemeChange}
+            />
+            <motion.button
+              className="p-2 sm:p-2.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 md:hidden transition-colors duration-200"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             >
-              {isDarkMode ? (
-                <Sun className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2} />
-              ) : (
-                <Moon className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2} />
-              )}
-            </button>
-            <button className="p-2 sm:p-2.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 md:hidden transition-colors duration-200">
               <Menu className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2} />
-            </button>
+            </motion.button>
           </div>
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 };
 

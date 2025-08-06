@@ -118,13 +118,27 @@ export default async function handler(req, res) {
       // If not in cache or forcing refresh, check the site status in real-time
       const siteStatus = await checkSiteStatus(siteConfig);
 
-      return res.status(200).json({ site: siteStatus });
+      // Make sure the ID is preserved in the response
+      const siteData = {
+        ...siteConfig,
+        ...siteStatus,
+        id: siteConfig.id, // Ensure ID is set correctly
+      };
+
+      return res.status(200).json({ site: siteData });
     }
 
     // For all sites
     if (forceRefresh || shouldRefreshCache) {
       // Check all sites in parallel
-      cachedResults = await checkAllSites(sitesConfig);
+      const statusResults = await checkAllSites(sitesConfig);
+
+      // Ensure each site has the correct ID
+      cachedResults = statusResults.map((site) => ({
+        ...site,
+        id: site.id || sitesConfig.find((s) => s.url === site.url)?.id,
+      }));
+
       lastChecked = new Date();
     }
 

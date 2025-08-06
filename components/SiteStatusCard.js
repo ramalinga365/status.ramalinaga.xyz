@@ -1,9 +1,13 @@
 import React from "react";
 import Link from "next/link";
 import { ExternalLink, BarChart2, Clock, Activity, Wifi } from "lucide-react";
+import { motion } from "framer-motion";
+import { fadeInUp, cardHover, scaleUp } from "../lib/animations";
+import StatusPulse from "./StatusPulse";
 
-const SiteStatusCard = ({ site }) => {
+const SiteStatusCard = ({ site = {}, className = "", id }) => {
   const {
+    id: siteId,
     name,
     description,
     url,
@@ -12,7 +16,7 @@ const SiteStatusCard = ({ site }) => {
     statusText,
     lastChecked,
     responseTime,
-  } = site;
+  } = site || {};
 
   const getStatusClasses = (status) => {
     switch (status) {
@@ -59,13 +63,29 @@ const SiteStatusCard = ({ site }) => {
   };
 
   return (
-    <div
-      className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm p-5 sm:p-5 p-3 flex flex-col border-l-4 ${statusClasses.border} transition-all duration-300 hover:shadow-md ${statusClasses.bgHover}`}
+    <motion.div
+      id={id}
+      className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm p-5 sm:p-5 p-3 flex flex-col border-l-4 ${statusClasses.border} ${statusClasses.bgHover} ${className}`}
+      initial="hidden"
+      animate="visible"
+      exit={{ opacity: 0, y: 10 }}
+      whileHover="hover"
+      whileTap="tap"
+      variants={cardHover}
+      layout
     >
-      <div className="flex items-start justify-between">
+      <motion.div
+        className="flex items-start justify-between"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.1 }}
+      >
         <div className="flex items-center">
-          <div
+          <motion.div
             className={`p-2 rounded-lg bg-gray-100 dark:bg-gray-700 ${statusClasses.icon} mr-3`}
+            variants={scaleUp}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
           >
             {status === "operational" ? (
               <Activity className="h-5 w-5" strokeWidth={2.5} />
@@ -74,57 +94,105 @@ const SiteStatusCard = ({ site }) => {
             ) : (
               <Wifi className="h-5 w-5" strokeWidth={2.5} off={true} />
             )}
-          </div>
-          <div>
-            <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <motion.h3
+              className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.25 }}
+            >
               {name}
-            </h3>
-            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+            </motion.h3>
+            <motion.p
+              className="text-xs sm:text-sm text-gray-500 dark:text-gray-400"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
               {description}
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
         </div>
-        <span
+        <motion.span
           className={`px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-xs font-medium flex items-center space-x-1 ${statusClasses.badge}`}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{
+            type: "spring",
+            stiffness: 500,
+            damping: 15,
+            delay: 0.3,
+          }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
-          <span
-            className={`w-2 h-2 rounded-full inline-block ${status === "operational" ? "bg-green-500" : status === "degraded" ? "bg-yellow-500" : "bg-red-500"}`}
-          ></span>
+          <StatusPulse status={status} size="small" />
           <span>{statusText}</span>
-        </span>
-      </div>
+        </motion.span>
+      </motion.div>
 
-      <div className="mt-3 sm:mt-4 flex flex-wrap sm:flex-nowrap items-center justify-between text-xs sm:text-sm">
-        <div className="flex space-x-2 sm:space-x-4 mb-2 sm:mb-0 w-full sm:w-auto">
-          <Link
-            href={url}
+      <motion.div
+        className="mt-3 sm:mt-4 flex flex-wrap sm:flex-nowrap items-center justify-between text-xs sm:text-sm"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+      >
+        <motion.div
+          className="flex space-x-2 sm:space-x-4 mb-2 sm:mb-0 w-full sm:w-auto"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          <StatusPulse
+            status={status}
+            size="small"
+            showLabel={true}
+            className="mr-1"
+          />
+          <a
+            href={url || "#"}
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center text-xs sm:text-sm"
+            onClick={(e) => {
+              if (!url) {
+                e.preventDefault();
+              }
+            }}
           >
             <span>Visit Site</span>
             <ExternalLink className="h-3.5 w-3.5 ml-1" />
-          </Link>
+          </a>
           <Link
-            href={`/site/${site.id}`}
+            href={`/site/${siteId || site?.id || ""}`}
             className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium flex items-center text-xs sm:text-sm"
           >
             <span>View Details</span>
             <BarChart2 className="h-3.5 w-3.5 ml-1" />
           </Link>
-        </div>
-        <div className="flex items-center space-x-2 sm:space-x-4">
+        </motion.div>
+        <motion.div
+          className="flex items-center space-x-2 sm:space-x-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+        >
           <span className="text-gray-500 dark:text-gray-400 flex items-center text-xs sm:text-sm">
             <Activity className="h-3 sm:h-3.5 w-3 sm:w-3.5 mr-1" />
-            <span>{responseTime}ms</span>
+            <span>{responseTime || "--"}ms</span>
           </span>
           <span className="text-gray-500 dark:text-gray-400 flex items-center text-xs sm:text-sm">
             <Clock className="h-3 sm:h-3.5 w-3 sm:w-3.5 mr-1" />
-            <span>{formatTime(lastChecked)}</span>
+            <span>{lastChecked ? formatTime(lastChecked) : "--"}</span>
           </span>
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 
