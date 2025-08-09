@@ -53,7 +53,7 @@ const SiteMetrics = ({ site }) => {
           icon: <Clock className="h-8 w-8 text-gray-500" strokeWidth={2} />,
           text: "Unknown",
           textColor: "text-gray-500",
-          bgColor: "bg-gray-100 dark:bg-gray-800/50",
+          bgColor: "bg-gray-100 dark:bg-dark-lighter/50",
         };
     }
   };
@@ -98,7 +98,7 @@ const SiteMetrics = ({ site }) => {
 
   return (
     <motion.div
-      className="bg-white dark:bg-gray-800 rounded-lg shadow p-4"
+      className="bg-white dark:bg-dark-lighter rounded-lg shadow p-3 sm:p-4"
       variants={scaleUp}
       initial="hidden"
       animate="visible"
@@ -111,7 +111,7 @@ const SiteMetrics = ({ site }) => {
     >
       <motion.div className="flex items-center justify-between mb-4">
         <motion.h3
-          className="text-lg font-semibold text-gray-900 dark:text-white"
+          className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
@@ -130,7 +130,7 @@ const SiteMetrics = ({ site }) => {
       </motion.div>
 
       <motion.div
-        className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+        className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4"
         variants={fadeInUp}
         initial="hidden"
         animate="visible"
@@ -177,7 +177,7 @@ const SiteMetrics = ({ site }) => {
 
         {/* Response Time */}
         <motion.div
-          className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4"
+          className="bg-gray-50 dark:bg-dark-light/50 rounded-lg p-4"
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.2 }}
         >
@@ -218,7 +218,7 @@ const SiteMetrics = ({ site }) => {
 
         {/* Last Checked */}
         <motion.div
-          className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 sm:col-span-2"
+          className="bg-gray-50 dark:bg-dark-light/50 rounded-lg p-4 sm:col-span-2"
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.2 }}
         >
@@ -258,9 +258,9 @@ const SiteMetrics = ({ site }) => {
                     Historical Uptime
                   </span>
                 </div>
-                <div className="grid grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   <motion.div
-                    className="bg-white dark:bg-gray-800 rounded p-2 text-center"
+                    className="bg-white dark:bg-dark-lighter rounded p-2 text-center"
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.1 }}
@@ -269,12 +269,12 @@ const SiteMetrics = ({ site }) => {
                     <div className="text-xs text-gray-500 dark:text-gray-400">
                       24 Hours
                     </div>
-                    <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                    <div className="text-base sm:text-lg font-bold text-blue-600 dark:text-blue-400">
                       {uptimeData.day}%
                     </div>
                   </motion.div>
                   <motion.div
-                    className="bg-white dark:bg-gray-800 rounded p-2 text-center"
+                    className="bg-white dark:bg-dark-lighter rounded p-2 text-center"
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.2 }}
@@ -283,12 +283,12 @@ const SiteMetrics = ({ site }) => {
                     <div className="text-xs text-gray-500 dark:text-gray-400">
                       7 Days
                     </div>
-                    <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                    <div className="text-base sm:text-lg font-bold text-blue-600 dark:text-blue-400">
                       {uptimeData.week}%
                     </div>
                   </motion.div>
                   <motion.div
-                    className="bg-white dark:bg-gray-800 rounded p-2 text-center"
+                    className="bg-white dark:bg-dark-lighter rounded p-2 text-center"
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.3 }}
@@ -297,12 +297,12 @@ const SiteMetrics = ({ site }) => {
                     <div className="text-xs text-gray-500 dark:text-gray-400">
                       30 Days
                     </div>
-                    <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                    <div className="text-base sm:text-lg font-bold text-blue-600 dark:text-blue-400">
                       {uptimeData.month}%
                     </div>
                   </motion.div>
                   <motion.div
-                    className="bg-white dark:bg-gray-800 rounded p-2 text-center"
+                    className="bg-white dark:bg-dark-lighter rounded p-2 text-center"
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.4 }}
@@ -311,7 +311,7 @@ const SiteMetrics = ({ site }) => {
                     <div className="text-xs text-gray-500 dark:text-gray-400">
                       1 Year
                     </div>
-                    <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                    <div className="text-base sm:text-lg font-bold text-blue-600 dark:text-blue-400">
                       {uptimeData.year}%
                     </div>
                   </motion.div>
@@ -334,7 +334,7 @@ const SiteMetrics = ({ site }) => {
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <motion.div
-                    className="bg-white dark:bg-gray-800 rounded p-3"
+                    className="bg-white dark:bg-dark-lighter rounded p-3"
                     initial={{ x: -20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.2 }}
@@ -342,12 +342,12 @@ const SiteMetrics = ({ site }) => {
                     <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">
                       Time to First Byte
                     </div>
-                    <div className="text-lg font-bold text-purple-600 dark:text-purple-400">
+                    <div className="text-base sm:text-lg font-bold text-purple-600 dark:text-purple-400">
                       {Math.round(responseTime * 0.4)}ms
                     </div>
                   </motion.div>
                   <motion.div
-                    className="bg-white dark:bg-gray-800 rounded p-3"
+                    className="bg-white dark:bg-dark-lighter rounded p-3"
                     initial={{ x: 20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.3 }}
@@ -355,7 +355,7 @@ const SiteMetrics = ({ site }) => {
                     <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">
                       DNS Lookup
                     </div>
-                    <div className="text-lg font-bold text-purple-600 dark:text-purple-400">
+                    <div className="text-base sm:text-lg font-bold text-purple-600 dark:text-purple-400">
                       {Math.round(responseTime * 0.15)}ms
                     </div>
                   </motion.div>

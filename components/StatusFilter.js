@@ -68,7 +68,7 @@ export default function StatusFilter({ onFilterChange }) {
       <div className="relative" ref={dropdownRef}>
         <motion.div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
           <motion.button
-            className={`flex items-center gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm transition-all duration-200 ${
+            className={`flex items-center gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-dark-lighter border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm transition-all duration-200 ${
               isOpen
                 ? "ring-2 ring-blue-500 border-transparent"
                 : "hover:bg-gray-50 dark:hover:bg-gray-700"
@@ -132,7 +132,7 @@ export default function StatusFilter({ onFilterChange }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="fixed sm:absolute right-2 left-2 sm:left-auto sm:right-0 top-20 sm:top-auto z-50 mt-2 sm:w-64 origin-top rounded-lg bg-white dark:bg-gray-800 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden"
+              className="fixed sm:absolute right-2 left-2 sm:left-auto sm:right-0 top-20 sm:top-auto z-50 mt-2 sm:w-64 origin-top rounded-lg bg-white dark:bg-dark-lighter shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden"
               role="menu"
               aria-orientation="vertical"
               aria-labelledby="status-filter-button"
@@ -155,7 +155,7 @@ export default function StatusFilter({ onFilterChange }) {
                       className={`mr-3 flex h-6 w-6 items-center justify-center rounded-full ${
                         selectedFilters.includes(option.value)
                           ? "bg-blue-100 dark:bg-blue-900"
-                          : "bg-gray-100 dark:bg-gray-700"
+                          : "bg-gray-100 dark:bg-dark-light"
                       }`}
                     >
                       <span

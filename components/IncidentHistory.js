@@ -20,12 +20,12 @@ const IncidentHistoryItem = ({ incident }) => {
       case 'critical':
         return 'bg-red-100 dark:bg-red-900';
       default:
-        return 'bg-gray-100 dark:bg-gray-900';
+        return 'bg-gray-100 dark:bg-black';
     }
   };
 
   return (
-    <div className={`p-4 rounded-lg mb-4 ${resolved ? 'bg-gray-50 dark:bg-gray-800' : getStatusColor(status)}`}>
+    <div className={`p-4 rounded-lg mb-4 ${resolved ? 'bg-gray-50 dark:bg-dark-lighter' : getStatusColor(status)}`}>
       <div className="flex justify-between items-start">
         <div>
           <h3 className="font-medium text-gray-900 dark:text-white">{title}</h3>
@@ -57,7 +57,7 @@ const IncidentHistory = ({ incidents }) => {
   const sortedIncidents = [...incidents].sort((a, b) => new Date(b.date) - new Date(a.date));
 
   return (
-    <div className="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
+    <div className="bg-white dark:bg-dark-lighter shadow-sm rounded-lg p-6">
       <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Incident History</h2>
 
       {sortedIncidents.length === 0 ? (

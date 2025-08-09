@@ -213,7 +213,7 @@ export default function Home() {
       <Header toggleTheme={handleToggleDarkMode} isDarkMode={darkMode} />
 
       <motion.main
-        className="flex-grow py-4 sm:py-8 px-3 sm:px-4 md:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 transition-colors duration-300"
+        className="flex-grow py-4 sm:py-8 px-3 sm:px-4 md:px-6 lg:px-8 bg-gray-50 dark:bg-black transition-colors duration-300"
         variants={fadeInUp}
       >
         <motion.div className="max-w-7xl mx-auto" variants={staggerContainer}>
@@ -253,63 +253,63 @@ export default function Home() {
                       animate="visible"
                     >
                       {/* Operational Percentage */}
-                      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-3 sm:p-4 flex items-center">
-                        <div className="bg-green-100 dark:bg-green-900/20 p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
+                      <div className="bg-white dark:bg-black rounded-lg shadow p-3 sm:p-4 flex items-center border border-gray-100 dark:border-gray-900">
+                        <div className="bg-green-100 dark:bg-green-900/10 p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
                           <CheckCircle
                             className="h-5 w-5 sm:h-6 sm:w-6 text-green-600 dark:text-green-400"
                             strokeWidth={2}
                           />
                         </div>
                         <div>
-                          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-500">
                             Operational
                           </p>
                           <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
                             {metrics.operationalPercentage}%
                           </p>
-                          <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">
+                          <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-500">
                             {metrics.totalSites} monitored sites
                           </p>
                         </div>
                       </div>
 
                       {/* Average Response Time */}
-                      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-3 sm:p-4 flex items-center">
-                        <div className="bg-blue-100 dark:bg-blue-900/20 p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
+                      <div className="bg-white dark:bg-black rounded-lg shadow p-3 sm:p-4 flex items-center border border-gray-100 dark:border-gray-900">
+                        <div className="bg-blue-100 dark:bg-blue-900/10 p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
                           <Clock
                             className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600 dark:text-blue-400"
                             strokeWidth={2}
                           />
                         </div>
                         <div>
-                          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-500">
                             Avg Response Time
                           </p>
                           <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
                             {metrics.averageResponseTime} ms
                           </p>
-                          <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">
+                          <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-500">
                             For operational sites
                           </p>
                         </div>
                       </div>
 
                       {/* Sites with Issues */}
-                      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-3 sm:p-4 flex items-center">
-                        <div className="bg-red-100 dark:bg-red-900/20 p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
+                      <div className="bg-white dark:bg-black rounded-lg shadow p-3 sm:p-4 flex items-center border border-gray-100 dark:border-gray-900">
+                        <div className="bg-red-100 dark:bg-red-900/10 p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
                           <Server
                             className="h-5 w-5 sm:h-6 sm:w-6 text-red-600 dark:text-red-400"
                             strokeWidth={2}
                           />
                         </div>
                         <div>
-                          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-500">
                             Sites with Issues
                           </p>
                           <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
                             {metrics.sitesWithIssues.length}
                           </p>
-                          <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">
+                          <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-500">
                             {metrics.sitesWithIssues.length
                               ? "Requires attention"
                               : "All systems operational"}
@@ -322,7 +322,7 @@ export default function Home() {
 
                 {/* Sites Status List */}
                 <motion.div
-                  className="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-4 sm:p-6 mb-4 sm:mb-6"
+                  className="bg-white dark:bg-black shadow-sm rounded-lg p-4 sm:p-6 mb-4 sm:mb-6 border border-gray-100 dark:border-gray-900"
                   variants={fadeInUp}
                   initial="hidden"
                   animate="visible"
@@ -390,7 +390,7 @@ export default function Home() {
                       </AnimatePresence>
                     ) : (
                       <motion.div
-                        className="flex flex-col items-center justify-center py-8 sm:py-12 bg-white dark:bg-gray-800 rounded-lg shadow-sm"
+                        className="flex flex-col items-center justify-center py-8 sm:py-12 bg-white dark:bg-black rounded-lg shadow-sm"
                         variants={fadeInUp}
                       >
                         <motion.div
@@ -404,7 +404,7 @@ export default function Home() {
                           <RefreshCw className="h-10 w-10 sm:h-12 sm:w-12 text-gray-400 dark:text-gray-500 mb-3 sm:mb-4" />
                         </motion.div>
                         <motion.p
-                          className="text-gray-500 dark:text-gray-400 text-center text-base sm:text-lg"
+                          className="text-gray-500 dark:text-gray-500 text-center text-base sm:text-lg"
                           initial={{ opacity: 0, y: 5 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.2 }}

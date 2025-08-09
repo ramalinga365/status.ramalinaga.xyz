@@ -46,10 +46,10 @@ const SiteStatusCard = ({ site = {}, className = "", id }) => {
       default:
         return {
           badge:
-            "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300",
+            "bg-gray-100 text-gray-800 dark:bg-dark-light dark:text-gray-300",
           icon: "text-gray-500",
           border: "border-gray-200 dark:border-gray-700",
-          bgHover: "hover:bg-gray-50 dark:hover:bg-gray-900/10",
+          bgHover: "hover:bg-gray-50 dark:hover:bg-dark-lighter/10",
         };
     }
   };
@@ -65,7 +65,7 @@ const SiteStatusCard = ({ site = {}, className = "", id }) => {
   return (
     <motion.div
       id={id}
-      className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm p-5 sm:p-5 p-3 flex flex-col border-l-4 ${statusClasses.border} ${statusClasses.bgHover} ${className}`}
+      className={`bg-white dark:bg-black rounded-lg shadow-sm p-5 sm:p-5 p-3 flex flex-col border-l-4 border border-gray-100 dark:border-gray-900 ${statusClasses.border} ${statusClasses.bgHover} ${className}`}
       initial="hidden"
       animate="visible"
       exit={{ opacity: 0, y: 10 }}
@@ -82,7 +82,7 @@ const SiteStatusCard = ({ site = {}, className = "", id }) => {
       >
         <div className="flex items-center">
           <motion.div
-            className={`p-2 rounded-lg bg-gray-100 dark:bg-gray-700 ${statusClasses.icon} mr-3`}
+            className={`p-2 rounded-lg bg-gray-100 dark:bg-dark-light ${statusClasses.icon} mr-3`}
             variants={scaleUp}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -109,7 +109,7 @@ const SiteStatusCard = ({ site = {}, className = "", id }) => {
               {name}
             </motion.h3>
             <motion.p
-              className="text-xs sm:text-sm text-gray-500 dark:text-gray-400"
+              className="text-xs sm:text-sm text-gray-500 dark:text-gray-500"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
@@ -182,11 +182,11 @@ const SiteStatusCard = ({ site = {}, className = "", id }) => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
         >
-          <span className="text-gray-500 dark:text-gray-400 flex items-center text-xs sm:text-sm">
+          <span className="text-gray-500 dark:text-gray-500 flex items-center text-xs sm:text-sm">
             <Activity className="h-3 sm:h-3.5 w-3 sm:w-3.5 mr-1" />
             <span>{responseTime || "--"}ms</span>
           </span>
-          <span className="text-gray-500 dark:text-gray-400 flex items-center text-xs sm:text-sm">
+          <span className="text-gray-500 dark:text-gray-500 flex items-center text-xs sm:text-sm">
             <Clock className="h-3 sm:h-3.5 w-3 sm:w-3.5 mr-1" />
             <span>{lastChecked ? formatTime(lastChecked) : "--"}</span>
           </span>

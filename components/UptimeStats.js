@@ -145,12 +145,12 @@ const UptimeStats = ({ services }) => {
   const overallUptime = calculateOverallUptime();
 
   return (
-    <div className="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6 mb-6">
+    <div className="bg-white dark:bg-dark-lighter shadow-sm rounded-lg p-6 mb-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 md:mb-0">
           Uptime Performance
         </h2>
-        <div className="bg-gray-100 dark:bg-gray-700 rounded-full px-4 py-2 flex items-center">
+        <div className="bg-gray-100 dark:bg-dark-light rounded-full px-4 py-2 flex items-center">
           <span className="text-sm text-gray-700 dark:text-gray-300 mr-2">Overall Uptime:</span>
           <span className="text-lg font-semibold text-blue-600 dark:text-blue-400">{overallUptime}%</span>
         </div>

@@ -130,7 +130,7 @@ const SearchSites = ({ sites = [], onResultSelect, className = "" }) => {
     <div className={`search-sites relative ${className}`}>
       <motion.button
         onClick={toggleSearch}
-        className="flex items-center gap-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-2.5 sm:px-3 py-1.5 sm:py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors min-w-[32px] sm:min-w-[auto] justify-center sm:justify-start"
+        className="flex items-center gap-2 bg-white dark:bg-dark-lighter border border-gray-200 dark:border-gray-700 rounded-lg px-2.5 sm:px-3 py-1.5 sm:py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors min-w-[32px] sm:min-w-[auto] justify-center sm:justify-start"
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         aria-expanded={isOpen}
@@ -151,7 +151,7 @@ const SearchSites = ({ sites = [], onResultSelect, className = "" }) => {
             transition={{ duration: 0.2 }}
           >
             <motion.div
-              className="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden cursor-default"
+              className="w-full max-w-2xl bg-white dark:bg-dark-lighter rounded-lg shadow-xl overflow-hidden cursor-default"
               onClick={(e) => e.stopPropagation()}
               initial={{ y: -50, scale: 0.95 }}
               animate={{ y: 0, scale: 1 }}
@@ -231,7 +231,7 @@ const SearchSites = ({ sites = [], onResultSelect, className = "" }) => {
                   )}
                 </div>
 
-                <div className="bg-gray-50 dark:bg-gray-700/50 px-4 py-2 text-xs text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700">
+                <div className="bg-gray-50 dark:bg-dark-light/50 px-4 py-2 text-xs text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700">
                   <div className="flex justify-between items-center">
                     <div>
                       {results.length > 0 && `${results.length} result${results.length !== 1 ? 's' : ''} found`}

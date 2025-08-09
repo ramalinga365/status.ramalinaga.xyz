@@ -29,7 +29,7 @@ const HistoricalChart = ({ siteHistory, siteId, siteName }) => {
 
   if (!siteHistory) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex justify-center items-center h-64">
+      <div className="bg-white dark:bg-dark-lighter rounded-lg shadow p-4 flex justify-center items-center h-64">
         <p className="text-gray-500 dark:text-gray-400">
           No historical data available
         </p>
@@ -204,9 +204,9 @@ const HistoricalChart = ({ siteHistory, siteId, siteName }) => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+    <div className="bg-white dark:bg-dark-lighter rounded-lg shadow p-3 sm:p-4">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white truncate">
           {siteName} - Historical Performance
         </h3>
         <div className="flex space-x-2">
@@ -215,7 +215,7 @@ const HistoricalChart = ({ siteHistory, siteId, siteName }) => {
             className={`px-3 py-1 text-sm rounded-full ${
               timeRange === '24h'
                 ? 'bg-blue-500 text-white'
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                : 'bg-gray-100 dark:bg-dark-light text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
             }`}
           >
             24 Hours
@@ -225,19 +225,19 @@ const HistoricalChart = ({ siteHistory, siteId, siteName }) => {
             className={`px-3 py-1 text-sm rounded-full ${
               timeRange === '30d'
                 ? 'bg-blue-500 text-white'
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                : 'bg-gray-100 dark:bg-dark-light text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
             }`}
           >
             30 Days
           </button>
         </div>
       </div>
-      <div className="h-64">
+      <div className="h-48 sm:h-64">
         <Line data={chartData} options={chartOptions} />
       </div>
       <div className="mt-4 text-xs text-gray-500 dark:text-gray-400">
         {timeRange === '24h' ? (
-          <div className="flex items-center space-x-4">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-4">
             <div className="flex items-center">
               <span className="inline-block w-3 h-3 bg-green-500 rounded-full mr-1"></span>
               <span>Operational</span>

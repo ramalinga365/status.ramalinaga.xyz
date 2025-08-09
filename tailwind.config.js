@@ -13,6 +13,13 @@ module.exports = {
         "status-red": "#ef4444",
         "status-gray": "#6b7280",
         "status-blue": "#3b82f6",
+        dark: {
+          DEFAULT: "#000000",
+          lighter: "#0a0a0a",
+          light: "#111111",
+          medium: "#1a1a1a",
+          border: "#222222",
+        },
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"],

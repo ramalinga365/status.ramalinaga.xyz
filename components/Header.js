@@ -1,12 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { BarChart2, Menu } from "lucide-react";
+import { BarChart2, Menu, X, Activity, Globe2 } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import ThemeSwitcher from "./ThemeSwitcher";
 
 const Header = ({ toggleTheme, isDarkMode }) => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Handle theme change from the ThemeSwitcher component
   const handleThemeChange = (isDark) => {
@@ -17,60 +18,147 @@ const Header = ({ toggleTheme, isDarkMode }) => {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
+      if (isMobileMenuOpen) setIsMobileMenuOpen(false);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isMobileMenuOpen]);
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (isMobileMenuOpen && !e.target.closest('.mobile-menu') && !e.target.closest('.menu-button')) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isMobileMenuOpen]);
 
   return (
-    <motion.header
-      className={`bg-white dark:bg-gray-800 sticky top-0 z-50 transition-colors duration-300 ${
-        isScrolled ? "shadow-md" : "shadow-sm"
-      }`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-    >
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-2 sm:py-4">
-          <Link href="/" className="flex items-center group">
-            <div className="flex-shrink-0">
-              <div className="h-8 w-8 sm:h-10 sm:w-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300 transform group-hover:scale-105">
-                <BarChart2
-                  className="h-5 w-5 sm:h-6 sm:w-6 text-white"
-                  strokeWidth={2.5}
+    <>
+      <motion.header
+        className={`bg-white dark:bg-black sticky top-0 z-50 transition-all duration-300 ${
+          isScrolled ? "shadow-lg" : "shadow-sm"
+        } ${isMobileMenuOpen ? "h-screen md:h-auto" : ""}`}
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      >
+        <nav className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-14 sm:h-16">
+            {/* Logo and Title - More compact on mobile */}
+            <Link href="/" className="flex items-center group">
+              <motion.div 
+                className="relative flex-shrink-0"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <div className="h-8 w-8 sm:h-9 sm:w-9 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-md">
+                  <BarChart2 className="h-4 w-4 sm:h-5 sm:w-5 text-white" strokeWidth={2} />
+                </div>
+                <motion.div 
+                  className="absolute -top-1 -right-1 h-2 w-2 bg-green-500 rounded-full"
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
                 />
+              </motion.div>
+              <div className="ml-2.5 sm:ml-3">
+                <div className="flex items-center">
+                  <h1 className="text-sm sm:text-lg font-bold text-gray-900 dark:text-white">
+                    ProDevOpsGuy
+                  </h1>
+                  <div className="flex items-center ml-2 sm:ml-3">
+                    <motion.div
+                      className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-green-500"
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
+                    <span className="ml-1 text-[10px] sm:text-xs text-green-600 dark:text-green-400 font-medium">
+                      Live
+                    </span>
+                  </div>
+                </div>
+                <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 hidden sm:block">
+                  Status Dashboard
+                </p>
               </div>
-            </div>
-            <div className="ml-3">
-              <h1 className="text-base sm:text-xl font-bold text-gray-900 dark:text-white flex items-center">
-                ProDevOpsGuy Status
-                <span className="ml-2 text-xs px-2 py-0.5 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 rounded-full hidden md:inline-block">
-                  Live
+            </Link>
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-4">
+              <ThemeSwitcher
+                currentTheme={isDarkMode ? "dark" : "light"}
+                onThemeChange={handleThemeChange}
+              />
+              <motion.div
+                className="flex items-center px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/20"
+                whileHover={{ scale: 1.05 }}
+              >
+                <Activity className="h-4 w-4 text-blue-500 dark:text-blue-400 mr-1.5" />
+                <span className="text-xs font-medium text-blue-600 dark:text-blue-400">
+                  All Systems Operational
                 </span>
-              </h1>
-              <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                Platform Status Dashboard
-              </p>
+              </motion.div>
             </div>
-          </Link>
-          <div className="flex items-center space-x-3">
-            <ThemeSwitcher
-              currentTheme={isDarkMode ? "dark" : "light"}
-              onThemeChange={handleThemeChange}
-            />
-            <motion.button
-              className="p-2 sm:p-2.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 md:hidden transition-colors duration-200"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <Menu className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={2} />
-            </motion.button>
+
+            {/* Mobile Menu Button */}
+            <div className="flex items-center space-x-2 md:hidden">
+              <ThemeSwitcher
+                currentTheme={isDarkMode ? "dark" : "light"}
+                onThemeChange={handleThemeChange}
+              />
+              <motion.button
+                className="menu-button p-1.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              >
+                {isMobileMenuOpen ? (
+                  <X className="h-5 w-5" strokeWidth={2} />
+                ) : (
+                  <Menu className="h-5 w-5" strokeWidth={2} />
+                )}
+              </motion.button>
+            </div>
           </div>
-        </div>
-      </div>
-    </motion.header>
+
+          {/* Mobile Menu */}
+          <AnimatePresence>
+            {isMobileMenuOpen && (
+              <motion.div
+                className="mobile-menu md:hidden fixed inset-x-0 top-14 bottom-0 bg-white dark:bg-dark-lighter z-40 overflow-y-auto border-t border-gray-100 dark:border-dark-border"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="p-4 space-y-4">
+                  <motion.div
+                    className="flex items-center justify-center p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20"
+                    initial={{ scale: 0.95 }}
+                    animate={{ scale: 1 }}
+                  >
+                    <Activity className="h-4 w-4 text-blue-500 dark:text-blue-400 mr-2" />
+                    <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
+                      All Systems Operational
+                    </span>
+                  </motion.div>
+                  
+                  <div className="pt-4 border-t border-gray-100 dark:border-gray-700">
+                    <div className="text-xs text-gray-500 dark:text-gray-400 text-center">
+                      Real-time monitoring and status updates
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </nav>
+      </motion.header>
+    </>
   );
 };
 

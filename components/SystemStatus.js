@@ -45,7 +45,7 @@ const SystemStatus = ({ sites }) => {
             />
           ),
           bgColor:
-            "bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-900/10",
+            "bg-gradient-to-br from-green-50 to-green-100 dark:from-gray-900 dark:to-black",
           borderColor: "border-green-200 dark:border-green-800",
           textColor: "text-green-800 dark:text-green-100",
         };
@@ -60,7 +60,7 @@ const SystemStatus = ({ sites }) => {
             />
           ),
           bgColor:
-            "bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/30 dark:to-yellow-900/10",
+            "bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-gray-900 dark:to-black",
           borderColor: "border-yellow-200 dark:border-yellow-800",
           textColor: "text-yellow-800 dark:text-yellow-100",
         };
@@ -75,7 +75,7 @@ const SystemStatus = ({ sites }) => {
             />
           ),
           bgColor:
-            "bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-900/10",
+            "bg-gradient-to-br from-red-50 to-red-100 dark:from-gray-900 dark:to-black",
           borderColor: "border-red-200 dark:border-red-800",
           textColor: "text-red-800 dark:text-red-100",
         };
@@ -90,7 +90,7 @@ const SystemStatus = ({ sites }) => {
             />
           ),
           bgColor:
-            "bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800/50 dark:to-gray-800/30",
+            "bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-black",
           borderColor: "border-gray-200 dark:border-gray-700",
           textColor: "text-gray-800 dark:text-gray-100",
         };
@@ -114,7 +114,7 @@ const SystemStatus = ({ sites }) => {
 
   return (
     <motion.div
-      className={`rounded-lg border ${statusConfig.borderColor} ${statusConfig.bgColor} p-3 md:p-4 mb-3 md:mb-4 shadow-md`}
+      className={`rounded-lg border-2 ${statusConfig.borderColor} ${statusConfig.bgColor} p-3 md:p-4 mb-3 md:mb-4 shadow-md`}
       variants={fadeInUp}
       initial="hidden"
       animate="visible"
@@ -124,7 +124,7 @@ const SystemStatus = ({ sites }) => {
       <div className="flex items-start md:items-center gap-2.5 md:gap-4">
         {/* Status Icon */}
         <motion.div
-          className="p-2 md:p-2.5 bg-white dark:bg-gray-800 rounded-lg shadow-sm flex-shrink-0"
+          className="p-2 md:p-2.5 bg-white dark:bg-black rounded-lg shadow-sm flex-shrink-0 border border-gray-100 dark:border-gray-900"
           variants={scaleUp}
         >
           {statusConfig.icon}
@@ -148,7 +148,7 @@ const SystemStatus = ({ sites }) => {
           </motion.p>
 
           {/* Status Details */}
-          <div className="flex flex-wrap items-center mt-1.5 gap-x-3 gap-y-1 text-[10px] md:text-xs text-gray-500 dark:text-gray-400">
+          <div className="flex flex-wrap items-center mt-1.5 gap-x-3 gap-y-1 text-[10px] md:text-xs text-gray-500 dark:text-gray-500">
             <div className="flex items-center">
               <Activity className="h-3 w-3 mr-1 text-blue-500" />
               <span>{operationalPercentage}% Operational</span>
@@ -170,7 +170,7 @@ const SystemStatus = ({ sites }) => {
 
         {/* Status Indicator */}
         <motion.div
-          className="hidden md:flex flex-col items-center justify-center bg-white dark:bg-gray-800 rounded-lg h-16 w-16 md:h-18 md:w-18 shadow-sm flex-shrink-0 relative overflow-hidden"
+          className="hidden md:flex flex-col items-center justify-center bg-white dark:bg-black rounded-lg h-16 w-16 md:h-18 md:w-18 shadow-sm flex-shrink-0 relative overflow-hidden border border-gray-100 dark:border-gray-900"
           variants={pulseAnimation}
           initial="initial"
           animate="animate"
@@ -202,7 +202,7 @@ const SystemStatus = ({ sites }) => {
             {operationalPercentage}%
           </motion.span>
           <motion.span
-            className="text-[9px] text-gray-500 dark:text-gray-400"
+            className="text-[9px] text-gray-500 dark:text-gray-500"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
@@ -227,7 +227,7 @@ const SystemStatus = ({ sites }) => {
 
       {/* Mobile percentage indicator (shown only on mobile) */}
       <motion.div
-        className="md:hidden mt-2 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden"
+        className="md:hidden mt-2 h-1.5 bg-gray-200 dark:bg-dark-light rounded-full overflow-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >

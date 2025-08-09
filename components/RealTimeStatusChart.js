@@ -158,7 +158,7 @@ const RealTimeStatusChart = ({
             label: "Response Time (ms)",
             data: data,
             fill: true,
-            backgroundColor: "rgba(59, 130, 246, 0.2)",
+            backgroundColor: "rgba(59, 130, 246, 0.1)",
             borderColor: "rgba(59, 130, 246, 1)",
             borderWidth: 2,
             pointBackgroundColor: "rgba(59, 130, 246, 1)",
@@ -222,7 +222,7 @@ const RealTimeStatusChart = ({
       y: {
         beginAtZero: false,
         grid: {
-          color: "rgba(156, 163, 175, 0.1)",
+          color: "rgba(156, 163, 175, 0.05)",
         },
         ticks: {
           color: "rgb(156, 163, 175)",
@@ -236,7 +236,7 @@ const RealTimeStatusChart = ({
       },
       x: {
         grid: {
-          color: "rgba(156, 163, 175, 0.1)",
+          color: "rgba(156, 163, 175, 0.05)",
         },
         ticks: {
           color: "rgb(156, 163, 175)",
@@ -251,7 +251,7 @@ const RealTimeStatusChart = ({
         display: false,
       },
       tooltip: {
-        backgroundColor: "rgba(17, 24, 39, 0.9)",
+        backgroundColor: "rgba(0, 0, 0, 0.9)",
         titleColor: "rgb(243, 244, 246)",
         bodyColor: "rgb(243, 244, 246)",
         borderColor: "rgba(107, 114, 128, 0.5)",
@@ -291,7 +291,7 @@ const RealTimeStatusChart = ({
 
   return (
     <motion.div
-      className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 ${className}`}
+      className={`bg-white dark:bg-black rounded-lg shadow-sm p-3 sm:p-4 border border-gray-100 dark:border-gray-900 ${className}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -299,7 +299,7 @@ const RealTimeStatusChart = ({
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center">
           <Activity className="h-5 w-5 text-blue-500 mr-2" />
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white truncate">
             {siteName || "Site"} Performance
           </h3>
         </div>
@@ -323,7 +323,7 @@ const RealTimeStatusChart = ({
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2 mb-4">
+      <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
         {timeRanges.map((range) => (
           <motion.button
             key={range.value}
@@ -332,7 +332,7 @@ const RealTimeStatusChart = ({
               ${
                 selectedTimeRange === range.value
                   ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
-                  : "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                  : "bg-gray-100 text-gray-700 dark:bg-dark-light dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
               }`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -367,16 +367,16 @@ const RealTimeStatusChart = ({
         chartData.datasets[0] &&
         chartData.datasets[0].data && (
           <motion.div
-            className="grid grid-cols-3 gap-2 mt-4 text-center"
+            className="grid grid-cols-3 gap-1.5 sm:gap-2 mt-3 sm:mt-4 text-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
           >
-            <div className="bg-gray-50 dark:bg-gray-700/30 rounded-lg p-2">
+            <div className="bg-gray-50 dark:bg-dark-light/30 rounded-lg p-2">
               <div className="text-xs text-gray-500 dark:text-gray-400">
                 Avg
               </div>
-              <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
+              <div className="text-base sm:text-lg font-bold text-blue-600 dark:text-blue-400">
                 {Math.round(
                   chartData.datasets[0].data
                     .filter((v) => v !== null && v !== undefined)
@@ -391,11 +391,11 @@ const RealTimeStatusChart = ({
                 ms
               </div>
             </div>
-            <div className="bg-gray-50 dark:bg-gray-700/30 rounded-lg p-2">
+            <div className="bg-gray-50 dark:bg-dark-light/30 rounded-lg p-2">
               <div className="text-xs text-gray-500 dark:text-gray-400">
                 Min
               </div>
-              <div className="text-lg font-bold text-green-600 dark:text-green-400">
+              <div className="text-base sm:text-lg font-bold text-green-600 dark:text-green-400">
                 {chartData.datasets[0].data.filter(
                   (v) => v !== null && v !== undefined,
                 ).length > 0
@@ -408,11 +408,11 @@ const RealTimeStatusChart = ({
                 ms
               </div>
             </div>
-            <div className="bg-gray-50 dark:bg-gray-700/30 rounded-lg p-2">
+            <div className="bg-gray-50 dark:bg-dark-light/30 rounded-lg p-2">
               <div className="text-xs text-gray-500 dark:text-gray-400">
                 Max
               </div>
-              <div className="text-lg font-bold text-red-600 dark:text-red-400">
+              <div className="text-base sm:text-lg font-bold text-red-600 dark:text-red-400">
                 {chartData.datasets[0].data.filter(
                   (v) => v !== null && v !== undefined,
                 ).length > 0

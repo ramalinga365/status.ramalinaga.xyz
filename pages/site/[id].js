@@ -135,7 +135,7 @@ export default function SiteDetail() {
 
       <Header toggleTheme={handleToggleDarkMode} isDarkMode={darkMode} />
 
-      <main className="flex-grow py-8 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900">
+      <main className="flex-grow py-4 sm:py-8 px-3 sm:px-6 lg:px-8 bg-gray-50 dark:bg-black">
         <div className="max-w-7xl mx-auto">
           {/* Back button */}
           <motion.div
@@ -167,21 +167,21 @@ export default function SiteDetail() {
               ></motion.div>
             </motion.div>
           ) : error ? (
-            <motion.div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 text-red-800 dark:text-red-200">
+            <motion.div className="bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800 rounded-lg p-4 text-red-800 dark:text-red-200">
               {error}
             </motion.div>
           ) : site ? (
             <>
               {/* Site Header */}
               <motion.div
-                className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6"
+                className="bg-white dark:bg-black rounded-lg shadow p-4 sm:p-6 mb-3 sm:mb-6 border border-gray-100 dark:border-gray-900"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
                 <div className="flex items-center">
                   <motion.span
-                    className="text-3xl mr-3"
+                    className="text-2xl sm:text-3xl mr-2 sm:mr-3"
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", stiffness: 260, damping: 20 }}
@@ -190,7 +190,7 @@ export default function SiteDetail() {
                   </motion.span>
                   <div>
                     <motion.h1
-                      className="text-2xl font-bold text-gray-900 dark:text-white"
+                      className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white"
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 }}
@@ -198,7 +198,7 @@ export default function SiteDetail() {
                       {site.name}
                     </motion.h1>
                     <motion.p
-                      className="text-gray-500 dark:text-gray-400"
+                      className="text-gray-500 dark:text-gray-500"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.2 }}
@@ -228,13 +228,13 @@ export default function SiteDetail() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
               >
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-3 mb-1">
-                  <div className="flex space-x-2 border-b border-gray-100 dark:border-gray-700 overflow-x-auto">
+                <div className="bg-white dark:bg-black rounded-lg shadow p-3 mb-1 border border-gray-100 dark:border-gray-900 overflow-hidden">
+                  <div className="flex space-x-2 border-b border-gray-100 dark:border-gray-900">
                     <motion.button
                       className={`px-4 py-2 text-sm font-medium rounded-t-lg ${
                         activeTab === "realtime"
                           ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-500"
-                          : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                          : "text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
                       }`}
                       onClick={() => setActiveTab("realtime")}
                       whileHover={{ scale: 1.05 }}
@@ -246,7 +246,7 @@ export default function SiteDetail() {
                       className={`px-4 py-2 text-sm font-medium rounded-t-lg ${
                         activeTab === "historical"
                           ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-500"
-                          : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                          : "text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
                       }`}
                       onClick={() => setActiveTab("historical")}
                       whileHover={{ scale: 1.05 }}
@@ -258,7 +258,7 @@ export default function SiteDetail() {
                       className={`px-4 py-2 text-sm font-medium rounded-t-lg ${
                         activeTab === "metrics"
                           ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-500"
-                          : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                          : "text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
                       }`}
                       onClick={() => setActiveTab("metrics")}
                       whileHover={{ scale: 1.05 }}
@@ -317,7 +317,7 @@ export default function SiteDetail() {
               </AnimatePresence>
             </>
           ) : (
-            <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 text-yellow-800 dark:text-yellow-200">
+            <div className="bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 text-yellow-800 dark:text-yellow-200">
               Site not found
             </div>
           )}
