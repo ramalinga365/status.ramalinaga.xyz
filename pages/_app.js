@@ -14,10 +14,28 @@ function MyApp({ Component, pageProps }) {
   const [pageTransitioning, setPageTransitioning] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Initialize theme on mount
+  // Initialize theme state from localStorage or system preference
   useEffect(() => {
-    const initialDarkMode = initializeDarkMode();
-    setIsDarkMode(initialDarkMode);
+    const savedPreference = localStorage.getItem('darkMode');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setIsDarkMode(savedPreference === 'true' || (!savedPreference && systemPrefersDark));
+
+    // Listen for system theme changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e) => {
+      const savedMode = localStorage.getItem('darkMode');
+      if (savedMode === null) {
+        setIsDarkMode(e.matches);
+        if (e.matches) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      }
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
   // Handle route change events for page transitions
@@ -61,7 +79,7 @@ function MyApp({ Component, pageProps }) {
       value={{ addNotification, removeNotification }}
     >
       <NotificationProvider>
-        <div className={`page-transition-wrapper ${isDarkMode ? 'dark' : ''}`}>
+        <div className="page-transition-wrapper">
           <AnimatePresence mode="wait">
             <motion.div
               key={router.route}
