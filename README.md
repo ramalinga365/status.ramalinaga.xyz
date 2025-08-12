@@ -1,5 +1,7 @@
 # ProDevOpsGuy Status Dashboard
 
+![banner](https://imgur.com/swyz5EF.png)
+
 A modern, responsive status dashboard for monitoring the health and uptime of web services and applications. Built with Next.js and Tailwind CSS.
 
 ## Features
