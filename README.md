@@ -1,4 +1,4 @@
-# ProDevOpsGuy Status Dashboard
+# Status Dashboard
 
 ![banner](https://imgur.com/swyz5EF.png)
 
@@ -31,7 +31,7 @@ A modern, responsive status dashboard for monitoring the health and uptime of we
 
 1. Clone this repository
 ```bash
-git clone https://github.com/yourusername/status.prodevopsguytech.com.git
+git clone https://github.com/yourusername/status.ramalinga.xyz.git
 cd status.prodevopsguytech.com
 ```
 
@@ -149,32 +149,3 @@ npm run update-status
 3. **Fallback Mechanism**: The UI falls back to static data if real-time checks fail
 4. **Historical Data**: Performance and uptime history are maintained over time
 5. **Status Notifications**: Users are notified of status changes as they occur
-
-## License
-
-MIT
-
-## Author & Community  
-
-This project is crafted with 💡 by **[Harshhaa](https://github.com/NotHarshhaa)**.  
-Your feedback is always welcome! Let's build together. 🚀  
-
-📧 **Connect with me:**  
-🔗 **GitHub**: [@NotHarshhaa](https://github.com/NotHarshhaa)  
-🔗 **Blog**: [ProDevOpsGuy](https://blog.prodevopsguy.xyz)  
-🔗 **Telegram Community**: [Join Here](https://t.me/prodevopsguy)  
-🔗 **LinkedIn**: [Harshhaa Vardhan Reddy](https://www.linkedin.com/in/harshhaa-vardhan-reddy/)  
-
----
-
-## Support the Project  
-
-If this helped you, consider:  
-✅ **Starring** ⭐ this repository  
-✅ **Sharing** 📢 with your network  
-
----
-
-### Stay Connected  
-
-![Follow Me](https://imgur.com/2j7GSPs.png)
