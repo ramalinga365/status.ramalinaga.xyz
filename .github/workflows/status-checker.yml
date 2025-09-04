@@ -54,8 +54,8 @@ jobs:
 
       - name: Commit changes if status data has changed
         run: |
-          git config --local user.email "reddyharshhaa12@gmail.com"
-          git config --local user.name "NotHarshhaa"
+          git config --local user.email "ramalinga365@gmail.com"
+          git config --local user.name "ramalinga"
           git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git
           git add public/status-data.json
           if git diff --staged --quiet; then
