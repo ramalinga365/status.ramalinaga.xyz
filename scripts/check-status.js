@@ -26,7 +26,7 @@ const sitesConfig = [
     id: "projects",
     name: "Real-Time Projects Hub",
     description: "Hands-on DevOps projects from beginner to advanced",
-    url: "https://projects.prodevopsguytech.com",
+    url: "https://projects.ramalinga.xyz",
     icon: "💻",
   },
   {
